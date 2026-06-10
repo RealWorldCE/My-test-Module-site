@@ -2311,6 +2311,156 @@
       letter-spacing: .04em;
     }
 
+
+    /* =========================================================
+       Restored Manager/Admin Portal
+       Manager/reporting tools are visible to manager + admin.
+       Settings remain admin-only.
+       ========================================================= */
+    .rwce-admin-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .42rem;
+    }
+    .rwce-admin-portal {
+      scroll-margin-top: 6rem;
+    }
+    .admin-dashboard-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.65rem;
+      border: 1px solid rgba(255,255,255,.78);
+      background: linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,255,255,.72));
+      box-shadow: 0 18px 48px rgba(15,23,42,.08);
+    }
+    .admin-dashboard-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1d4ed8, #8ec5ea, #67e8f9);
+    }
+    .admin-stat-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.4rem;
+      border: 1px solid rgba(226,232,240,.88);
+      background: rgba(255,255,255,.88);
+      padding: 1rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.74), 0 12px 28px rgba(15,23,42,.05);
+    }
+    .admin-stat-card .material-symbols-outlined {
+      width: 2.25rem;
+      height: 2.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: .9rem;
+      color: #1d4ed8;
+      background: rgba(239,246,255,.94);
+      border: 1px solid rgba(147,197,253,.44);
+      box-shadow: 0 10px 20px rgba(37,99,235,.08);
+    }
+    .admin-tab-button {
+      min-height: 2.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.28);
+      background: rgba(255,255,255,.78);
+      padding: .65rem .9rem;
+      color: #475569;
+      font-size: .82rem;
+      font-weight: 900;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    }
+    .admin-tab-button:hover { transform: translateY(-1px); color: #1d4ed8; }
+    .admin-tab-button.is-active {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 52%, #0ea5e9 100%);
+      color: #fff;
+      border-color: rgba(37,99,235,.55);
+      box-shadow: 0 16px 34px rgba(37,99,235,.22);
+    }
+    .admin-view-panel { display: none; }
+    .admin-view-panel.is-active { display: block; }
+    .admin-table-wrap {
+      overflow: auto;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(226,232,240,.9);
+      background: rgba(255,255,255,.9);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+    }
+    .admin-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .admin-table th {
+      padding: .85rem 1rem;
+      text-align: left;
+      color: #64748b;
+      font-size: .68rem;
+      font-weight: 950;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: rgba(248,250,252,.92);
+      border-bottom: 1px solid rgba(226,232,240,.9);
+    }
+    .admin-table td {
+      padding: .9rem 1rem;
+      color: #334155;
+      font-size: .86rem;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(226,232,240,.65);
+      vertical-align: top;
+    }
+    .admin-table tr:last-child td { border-bottom: 0; }
+    .admin-table tr:hover td { background: rgba(239,246,255,.45); }
+    .admin-status-message {
+      border-radius: 1rem;
+      border: 1px solid rgba(191,219,254,.72);
+      background: rgba(239,246,255,.88);
+      color: #1e3a8a;
+      padding: .85rem 1rem;
+      font-weight: 800;
+      font-size: .85rem;
+    }
+    .admin-status-message.error {
+      border-color: rgba(252,165,165,.65);
+      background: rgba(254,242,242,.92);
+      color: #991b1b;
+    }
+    .admin-status-message.success {
+      border-color: rgba(110,231,183,.65);
+      background: rgba(236,253,245,.92);
+      color: #047857;
+    }
+    .admin-form-field span {
+      display: block;
+      margin-bottom: .45rem;
+      color: #475569;
+      font-size: .7rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .admin-form-field input,
+    .admin-form-field select {
+      min-height: 3rem;
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(203,213,225,.95);
+      background: rgba(255,255,255,.92);
+      padding: .75rem .9rem;
+      color: #0f2438;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 10px 22px rgba(15,23,42,.04);
+    }
+    @media (max-width: 768px) {
+      .admin-stat-grid { grid-template-columns: minmax(0, 1fr) !important; }
+      .admin-tab-row { overflow-x: auto; padding-bottom: .25rem; }
+      .admin-tab-row > div { min-width: max-content; }
+    }
+
 </style>
 </head>
 <body class="text-slate-800 min-h-screen rwce-auth-locked">
@@ -2367,6 +2517,8 @@
 <a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#library">Library</a>
 <a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#featured">Featured</a>
 <a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#collections">Collections</a>
+<a class="rwce-admin-link px-4 py-2 rounded-full border border-blue-200 bg-blue-50 text-blue-700 font-semibold hover:border-blue-300 hover:text-blue-800 transition" href="#managerPortal" data-min-role="manager"><span class="material-symbols-outlined text-[17px]">admin_panel_settings</span>Manager Portal</a>
+<a class="rwce-admin-link px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#settingsSection" data-min-role="admin"><span class="material-symbols-outlined text-[17px]">settings</span>Admin Settings</a>
 <a class="px-4 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-glow" href="#library">Launch Center</a>
 </div>
 <div class="header-account-actions">
@@ -2387,6 +2539,8 @@
 <a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#library">Library</a>
 <a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#featured">Featured</a>
 <a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#collections">Collections</a>
+<a class="px-3 py-2 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-sm font-semibold whitespace-nowrap" href="#managerPortal" data-min-role="manager">Manager Portal</a>
+<a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#settingsSection" data-min-role="admin">Settings</a>
 <a class="px-3 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold whitespace-nowrap shadow-glow" href="#library">Launch</a>
 </div>
 </div>
@@ -2743,7 +2897,130 @@
 </div>
 </div>
 </div>
-</div></aside></section></main></div>
+</div></aside></section>
+
+<section class="rwce-admin-portal mt-8" id="managerPortal" data-min-role="manager" aria-label="Manager and administrator portal">
+  <div class="admin-dashboard-card p-5 sm:p-6">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">
+          <span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+          Manager Portal
+        </div>
+        <h2 class="mt-3 text-2xl sm:text-3xl font-black tracking-tight text-medicalBlue">Reporting and user management</h2>
+        <p class="mt-2 max-w-3xl text-sm sm:text-base font-semibold leading-relaxed text-slate-500">Managers can review learner activity, user reports, module analytics, and add users. Admin-only settings stay hidden unless the signed-in profile role is admin.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <button class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-black text-slate-700 hover:border-blue-300 hover:text-blue-700" id="refreshAdminDataBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">sync</span>
+          Refresh Data
+        </button>
+        <a class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-black text-white shadow-glow hover:bg-blue-700" href="#library">
+          <span class="material-symbols-outlined text-[18px]">apps</span>
+          Back to Library
+        </a>
+      </div>
+    </div>
+
+    <div class="admin-stat-grid mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="admin-stat-card"><span class="material-symbols-outlined">group</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Users</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatUsers">0</div></div>
+      <div class="admin-stat-card"><span class="material-symbols-outlined">library_books</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Modules</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatModules">0</div></div>
+      <div class="admin-stat-card"><span class="material-symbols-outlined">task_alt</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Completions</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatCompletions">0</div></div>
+      <div class="admin-stat-card"><span class="material-symbols-outlined">timer</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Avg. Minutes</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatAvgTime">0</div></div>
+    </div>
+
+    <div class="admin-tab-row mt-6">
+      <div class="flex flex-wrap gap-2">
+        <button class="admin-tab-button is-active" type="button" data-admin-tab="dashboard">Dashboard</button>
+        <button class="admin-tab-button" type="button" data-admin-tab="reports">User Reports</button>
+        <button class="admin-tab-button" type="button" data-admin-tab="analytics">Module Analytics</button>
+        <button class="admin-tab-button" type="button" data-admin-tab="users">Add Users</button>
+        <button class="admin-tab-button" type="button" data-admin-tab="settings" data-min-role="admin">Settings</button>
+      </div>
+    </div>
+
+    <div class="mt-5 space-y-5">
+      <div class="admin-status-message" id="adminPortalStatus">Manager portal restored. Data will load after a manager or admin signs in.</div>
+
+      <section class="admin-view-panel is-active" id="adminViewDashboard">
+        <div class="grid lg:grid-cols-[1fr_.75fr] gap-4">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Recent Activity</th><th>User</th><th>Status</th><th>Updated</th></tr></thead>
+              <tbody id="recentActivityRows"><tr><td colspan="4">No activity loaded yet.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white/80 p-5">
+            <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Portal Controls</div>
+            <h3 class="mt-2 text-xl font-black text-medicalBlue">Role-based access is active</h3>
+            <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Learners see the module portal. Managers see reports and add users. Admins also see settings.</p>
+            <div class="mt-4 grid gap-2 text-sm font-bold text-slate-600">
+              <div class="rounded-2xl bg-slate-50 p-3">Current role: <span class="font-black text-blue-700" id="adminCurrentRole">Locked</span></div>
+              <div class="rounded-2xl bg-slate-50 p-3">Organization: <span class="font-black text-blue-700" id="adminCurrentOrg">Not loaded</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-view-panel" id="adminViewReports">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Learner/User</th><th>Email</th><th>Role</th><th>Sessions</th><th>Completions</th><th>Credits</th></tr></thead>
+            <tbody id="userReportRows"><tr><td colspan="6">No users loaded yet.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-view-panel" id="adminViewAnalytics">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Module</th><th>Specialty</th><th>Format</th><th>Status</th><th>Sessions</th><th>Completions</th></tr></thead>
+            <tbody id="moduleAnalyticsRows"><tr><td colspan="6">No module analytics loaded yet.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-view-panel" id="adminViewUsers">
+        <div class="grid lg:grid-cols-[.85fr_1fr] gap-5">
+          <form class="rounded-3xl border border-slate-200 bg-white/85 p-5" id="addUserForm">
+            <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Add User</div>
+            <h3 class="mt-2 text-xl font-black text-medicalBlue">Create learner, manager, or admin</h3>
+            <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">This calls the secure Supabase Edge Function named <span class="font-black">rwce-admin-create-user</span>. The service-role key must stay in the Edge Function, not this HTML file.</p>
+            <div class="mt-4 grid gap-3">
+              <label class="admin-form-field"><span>Full Name</span><input id="newUserFullName" type="text" placeholder="Jane Learner" required /></label>
+              <label class="admin-form-field"><span>Email</span><input id="newUserEmail" type="email" placeholder="jane@example.com" required /></label>
+              <label class="admin-form-field"><span>Temporary Password</span><input id="newUserPassword" type="password" placeholder="Temporary password" required /></label>
+              <label class="admin-form-field"><span>Role</span><select id="newUserRole"><option value="learner">Learner</option><option value="manager">Manager</option><option value="admin">Admin</option></select></label>
+              <button class="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" type="submit"><span class="material-symbols-outlined text-[20px]">person_add</span>Add User</button>
+            </div>
+            <div class="admin-status-message hidden mt-4" id="addUserStatus"></div>
+          </form>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th></tr></thead>
+              <tbody id="userManagementRows"><tr><td colspan="4">No users loaded yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-view-panel" id="adminViewSettings" data-min-role="admin">
+        <div class="rounded-3xl border border-slate-200 bg-white/85 p-5" id="settingsSection">
+          <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Administrator Settings</div>
+          <h3 class="mt-2 text-xl font-black text-medicalBlue">Admin-only controls</h3>
+          <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Managers and learners should not see this settings area. It is visible only when <span class="font-black">public.profiles.role</span> reads as admin/administrator.</p>
+          <div class="mt-4 grid md:grid-cols-3 gap-3">
+            <div class="rounded-2xl bg-slate-50 p-4"><div class="text-xs font-black uppercase tracking-[0.12em] text-slate-500">Database</div><div class="mt-1 text-sm font-black text-medicalBlue" id="settingsDatabaseState">Checking...</div></div>
+            <div class="rounded-2xl bg-slate-50 p-4"><div class="text-xs font-black uppercase tracking-[0.12em] text-slate-500">Profile Role</div><div class="mt-1 text-sm font-black text-medicalBlue" id="settingsRoleState">Locked</div></div>
+            <div class="rounded-2xl bg-slate-50 p-4"><div class="text-xs font-black uppercase tracking-[0.12em] text-slate-500">Auth Method</div><div class="mt-1 text-sm font-black text-medicalBlue">Supabase Auth + profiles</div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+</main></div>
 
 
 
@@ -2886,6 +3163,7 @@
       initializeModuleViewer();
       initializeLogout();
       initializeModulePreviews();
+      initializeAdminPortals();
     });
 
     const searchInput = document.getElementById('searchInput');
@@ -3321,6 +3599,10 @@
       setPanelVisibility(loginScreen, false);
       setPanelVisibility(moduleViewer, false);
       setPanelVisibility(portalShell, true, 'block');
+      initializeAdminPortals();
+      if (['admin', 'manager'].includes(userRole)) {
+        await loadManagerPortalData(true);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -3461,6 +3743,265 @@
       });
     }
 
+
+
+
+    // ================================
+    // RESTORED MANAGER / ADMIN PORTAL
+    // ================================
+    let rwceAdminPortalData = {
+      users: [],
+      modules: [],
+      sessions: [],
+      completions: []
+    };
+    let rwceAdminPortalInitialized = false;
+
+    function safeText(value, fallback = '') {
+      return String(value ?? fallback)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatAdminDate(value) {
+      if (!value) return '—';
+      try {
+        return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      } catch (error) {
+        return '—';
+      }
+    }
+
+    function getPortalModulesFromPage() {
+      return Array.from(document.querySelectorAll('#moduleGrid .module-card')).map((card, index) => ({
+        id: card.dataset.moduleId || card.dataset.id || card.dataset.repository || card.dataset.viewKey || `page-module-${index}`,
+        title: card.dataset.title || card.querySelector('h3')?.textContent?.trim() || 'Real World CE Module',
+        specialty: card.dataset.area || card.dataset.tabs || 'Clinical Education',
+        format: card.dataset.formatLabel || card.dataset.kind || 'Module',
+        status: card.dataset.status || 'Live',
+        module_url: card.querySelector('a.tracked-link')?.href || ''
+      }));
+    }
+
+    function setAdminStatus(message, type = '') {
+      const node = document.getElementById('adminPortalStatus');
+      if (!node) return;
+      node.textContent = message;
+      node.classList.remove('error', 'success');
+      if (type) node.classList.add(type);
+    }
+
+    function showAdminTab(tab = 'dashboard') {
+      const normalized = String(tab || 'dashboard').toLowerCase();
+      document.querySelectorAll('.admin-view-panel').forEach(panel => panel.classList.remove('is-active'));
+      const target = document.getElementById({
+        dashboard: 'adminViewDashboard',
+        reports: 'adminViewReports',
+        analytics: 'adminViewAnalytics',
+        users: 'adminViewUsers',
+        settings: 'adminViewSettings'
+      }[normalized] || 'adminViewDashboard');
+      if (target) target.classList.add('is-active');
+      document.querySelectorAll('.admin-tab-button').forEach(button => {
+        button.classList.toggle('is-active', button.dataset.adminTab === normalized);
+      });
+      if (['dashboard', 'reports', 'analytics', 'users'].includes(normalized)) {
+        loadManagerPortalData(false);
+      }
+    }
+
+    function summarizeByUser() {
+      const users = rwceAdminPortalData.users || [];
+      const sessions = rwceAdminPortalData.sessions || [];
+      const completions = rwceAdminPortalData.completions || [];
+      return users.map(user => {
+        const userId = user.id || user.user_id;
+        const email = String(user.email || '').toLowerCase();
+        const userSessions = sessions.filter(item => item.user_id === userId || String(item.email || '').toLowerCase() === email);
+        const userCompletions = completions.filter(item => item.user_id === userId || String(item.email || '').toLowerCase() === email);
+        return {
+          ...user,
+          session_count: userSessions.length,
+          completion_count: userCompletions.length,
+          credits: userCompletions.reduce((sum, item) => sum + Number(item.credit_earned || item.credits || item.credit_amount || 0), 0)
+        };
+      });
+    }
+
+    function summarizeByModule() {
+      const modulesFromPage = getPortalModulesFromPage();
+      const databaseModules = rwceAdminPortalData.modules || [];
+      const modules = databaseModules.length ? databaseModules : modulesFromPage;
+      const sessions = rwceAdminPortalData.sessions || [];
+      const completions = rwceAdminPortalData.completions || [];
+      return modules.map(module => {
+        const title = module.title || module.name || 'Real World CE Module';
+        const moduleId = module.id || module.module_id;
+        const moduleUrl = module.module_url || module.url || '';
+        const moduleSessions = sessions.filter(item => item.module_id === moduleId || item.module_url === moduleUrl || item.title === title);
+        const moduleCompletions = completions.filter(item => item.module_id === moduleId || item.module_url === moduleUrl || item.title === title);
+        return {
+          ...module,
+          title,
+          session_count: moduleSessions.length,
+          completion_count: moduleCompletions.length
+        };
+      });
+    }
+
+    function renderAdminPortal() {
+      const users = rwceAdminPortalData.users || [];
+      const sessions = rwceAdminPortalData.sessions || [];
+      const completions = rwceAdminPortalData.completions || [];
+      const moduleSummary = summarizeByModule();
+      const userSummary = summarizeByUser();
+      const totalSeconds = sessions.reduce((sum, item) => sum + Number(item.time_spent_seconds || item.time_seconds || item.time || 0), 0);
+      const avgMinutes = sessions.length ? Math.round((totalSeconds / sessions.length) / 60) : 0;
+
+      const setText = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value; };
+      setText('adminStatUsers', users.length.toLocaleString());
+      setText('adminStatModules', moduleSummary.length.toLocaleString());
+      setText('adminStatCompletions', completions.length.toLocaleString());
+      setText('adminStatAvgTime', avgMinutes.toLocaleString());
+      setText('adminCurrentRole', normalizePortalRole(rwceAuthenticatedProfile?.role || localStorage.getItem('rwce_active_user_role') || 'locked'));
+      setText('adminCurrentOrg', rwceAuthenticatedProfile?.organization_id || localStorage.getItem('rwce_active_organization_id') || 'Not loaded');
+      setText('settingsDatabaseState', rwceSupabaseReady ? 'Connected' : 'Not configured');
+      setText('settingsRoleState', normalizePortalRole(rwceAuthenticatedProfile?.role || 'locked'));
+
+      const recentRows = document.getElementById('recentActivityRows');
+      if (recentRows) {
+        const recent = [...sessions, ...completions]
+          .sort((a, b) => new Date(b.updated_at || b.completed_at || b.started_at || b.created_at || 0) - new Date(a.updated_at || a.completed_at || a.started_at || a.created_at || 0))
+          .slice(0, 8);
+        recentRows.innerHTML = recent.length ? recent.map(item => {
+          const user = users.find(u => u.id === item.user_id) || {};
+          const module = moduleSummary.find(m => m.id === item.module_id) || {};
+          return `<tr><td>${safeText(module.title || item.title || item.module_id || 'Module activity')}</td><td>${safeText(user.full_name || user.email || item.email || item.user_id || 'User')}</td><td>${safeText(item.passed === true || item.completed === true || item.completed_at ? 'Completed' : item.last_event || item.status || 'Started')}</td><td>${safeText(formatAdminDate(item.updated_at || item.completed_at || item.started_at || item.created_at))}</td></tr>`;
+        }).join('') : '<tr><td colspan="4">No recent activity found. Check RLS policies for module_sessions and module_completions.</td></tr>';
+      }
+
+      const reportRows = document.getElementById('userReportRows');
+      if (reportRows) {
+        reportRows.innerHTML = userSummary.length ? userSummary.map(user => `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(normalizePortalRole(user.role || 'learner'))}</td><td>${safeText(user.session_count)}</td><td>${safeText(user.completion_count)}</td><td>${safeText(Number(user.credits || 0).toFixed(1))}</td></tr>`).join('') : '<tr><td colspan="6">No users found. Check manager/admin profile read policies.</td></tr>';
+      }
+
+      const userMgmtRows = document.getElementById('userManagementRows');
+      if (userMgmtRows) {
+        userMgmtRows.innerHTML = users.length ? users.map(user => `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(normalizePortalRole(user.role || 'learner'))}</td><td>${safeText(formatAdminDate(user.created_at))}</td></tr>`).join('') : '<tr><td colspan="4">No users loaded yet.</td></tr>';
+      }
+
+      const analyticsRows = document.getElementById('moduleAnalyticsRows');
+      if (analyticsRows) {
+        analyticsRows.innerHTML = moduleSummary.length ? moduleSummary.map(module => `<tr><td>${safeText(module.title || 'Module')}</td><td>${safeText(module.specialty || module.area || '—')}</td><td>${safeText(module.format || module.kind || 'Module')}</td><td>${safeText(module.status || 'Live')}</td><td>${safeText(module.session_count || 0)}</td><td>${safeText(module.completion_count || 0)}</td></tr>`).join('') : '<tr><td colspan="6">No modules found.</td></tr>';
+      }
+    }
+
+    async function loadManagerPortalData(force = false) {
+      const role = normalizePortalRole(rwceAuthenticatedProfile?.role || localStorage.getItem('rwce_active_user_role') || 'locked');
+      if (!['admin', 'manager'].includes(role)) return;
+      if (!force && rwceAdminPortalData.loaded) {
+        renderAdminPortal();
+        return;
+      }
+      rwceAdminPortalData.modules = getPortalModulesFromPage();
+      renderAdminPortal();
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        setAdminStatus('Manager portal is visible, but Supabase is not configured in this file.', 'error');
+        return;
+      }
+      try {
+        setAdminStatus('Loading manager portal data from Supabase...', '');
+        const [profilesResult, modulesResult, sessionsResult, completionsResult] = await Promise.allSettled([
+          rwceSupabase.from('profiles').select('id, organization_id, full_name, email, role, created_at, updated_at').order('created_at', { ascending: false }).limit(500),
+          rwceSupabase.from('modules').select('id, title, repository, module_url, specialty, credit_amount, status, format, description, sort_order, created_at, updated_at').order('sort_order', { ascending: true }).limit(500),
+          rwceSupabase.from('module_sessions').select('id, user_id, module_id, started_at, ended_at, time_spent_seconds, completed, completion_percent, last_event, created_at, updated_at').order('updated_at', { ascending: false }).limit(500),
+          rwceSupabase.from('module_completions').select('id, user_id, module_id, session_id, completed_at, score, passed, credit_earned, certificate_id, created_at, updated_at').order('completed_at', { ascending: false }).limit(500)
+        ]);
+
+        const errors = [];
+        const assignResult = (result, key) => {
+          if (result.status === 'fulfilled' && !result.value.error) {
+            rwceAdminPortalData[key] = result.value.data || [];
+          } else {
+            const message = result.status === 'fulfilled' ? result.value.error?.message : result.reason?.message;
+            errors.push(`${key}: ${message || 'unable to load'}`);
+          }
+        };
+        assignResult(profilesResult, 'users');
+        assignResult(modulesResult, 'modules');
+        assignResult(sessionsResult, 'sessions');
+        assignResult(completionsResult, 'completions');
+        rwceAdminPortalData.loaded = true;
+        renderAdminPortal();
+        if (errors.length) {
+          setAdminStatus('Portal restored, but some database tables could not be read. Check RLS policies: ' + errors.join(' | '), 'error');
+        } else {
+          setAdminStatus('Manager portal data loaded from Supabase.', 'success');
+        }
+      } catch (error) {
+        renderAdminPortal();
+        setAdminStatus('Portal restored, but Supabase reporting data could not be loaded: ' + (error?.message || error), 'error');
+      }
+    }
+
+    function showAddUserStatus(message, type = '') {
+      const node = document.getElementById('addUserStatus');
+      if (!node) return;
+      node.textContent = message;
+      node.classList.remove('hidden', 'error', 'success');
+      if (type) node.classList.add(type);
+    }
+
+    async function handleAddUser(event) {
+      event.preventDefault();
+      const role = normalizePortalRole(rwceAuthenticatedProfile?.role || localStorage.getItem('rwce_active_user_role') || 'locked');
+      if (!['admin', 'manager'].includes(role)) {
+        showAddUserStatus('Only managers and admins can add users.', 'error');
+        return;
+      }
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        showAddUserStatus('Supabase is not connected. User was not created.', 'error');
+        return;
+      }
+      const full_name = document.getElementById('newUserFullName')?.value.trim();
+      const email = document.getElementById('newUserEmail')?.value.trim().toLowerCase();
+      const password = document.getElementById('newUserPassword')?.value;
+      const newRole = normalizePortalRole(document.getElementById('newUserRole')?.value || 'learner');
+      if (!full_name || !email || !password) {
+        showAddUserStatus('Enter full name, email, and temporary password.', 'error');
+        return;
+      }
+      try {
+        showAddUserStatus('Creating user through Supabase Edge Function...', '');
+        const { data, error } = await rwceSupabase.functions.invoke('rwce-admin-create-user', {
+          body: { full_name, email, password, role: newRole, organization_id: rwceAuthenticatedProfile?.organization_id || null }
+        });
+        if (error || data?.error) {
+          showAddUserStatus((data?.error || error?.message || 'Supabase user creation failed.') + ' Make sure the rwce-admin-create-user Edge Function is deployed.', 'error');
+          return;
+        }
+        showAddUserStatus(`User created: ${full_name} (${newRole}).`, 'success');
+        event.target.reset();
+        await loadManagerPortalData(true);
+      } catch (error) {
+        showAddUserStatus('Edge Function call failed: ' + (error?.message || error), 'error');
+      }
+    }
+
+    function initializeAdminPortals() {
+      if (rwceAdminPortalInitialized) return;
+      rwceAdminPortalInitialized = true;
+      document.querySelectorAll('[data-admin-tab]').forEach(button => {
+        button.addEventListener('click', () => showAdminTab(button.dataset.adminTab || 'dashboard'));
+      });
+      const refreshButton = document.getElementById('refreshAdminDataBtn');
+      if (refreshButton) refreshButton.addEventListener('click', () => loadManagerPortalData(true));
+      const addUserForm = document.getElementById('addUserForm');
+      if (addUserForm) addUserForm.addEventListener('submit', handleAddUser);
+    }
 
     function buildPreviewFallback(title, area) {
       const safeTitle = (title || 'Module Preview').replace(/[&<>]/g, '');
