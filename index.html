@@ -2279,6 +2279,136 @@
       }
     }
 
+
+    /* =========================================================
+       Full Manager Portal Feature Restoration
+       Restores dashboard, activity, reports, analytics, CSV export,
+       add-user workflow, and admin-only settings inside the role-gated page.
+       ========================================================= */
+    .admin-stat-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.35rem;
+      border: 1px solid rgba(226,232,240,.92);
+      background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,250,252,.86));
+      padding: 1rem;
+      box-shadow: 0 14px 32px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.78);
+    }
+    .admin-stat-card::before,
+    .admin-table-wrap::before,
+    .admin-settings-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #8ec5ea, #67e8f9);
+    }
+    .admin-stat-card .material-symbols-outlined {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: 1rem;
+      background: rgba(239,246,255,.94);
+      border: 1px solid rgba(147,197,253,.48);
+      color: #2563eb;
+      font-size: 20px;
+    }
+    .admin-tab-row {
+      border-radius: 1.25rem;
+      border: 1px solid rgba(226,232,240,.92);
+      background: rgba(248,250,252,.78);
+      padding: .65rem;
+    }
+    .admin-tab-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.55rem;
+      padding: .65rem .95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(203,213,225,.9);
+      background: rgba(255,255,255,.92);
+      color: #475569;
+      font-size: .78rem;
+      font-weight: 950;
+      line-height: 1;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease;
+    }
+    .admin-tab-button:hover {
+      border-color: rgba(96,165,250,.72);
+      color: #1d4ed8;
+      box-shadow: 0 10px 22px rgba(37,99,235,.08);
+    }
+    .admin-tab-button.is-active {
+      color: #ffffff;
+      border-color: rgba(37,99,235,.95);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 52%, #0ea5e9 100%);
+      box-shadow: 0 14px 30px rgba(37,99,235,.22);
+    }
+    .admin-view-panel { display: none; }
+    .admin-view-panel.is-active { display: block; }
+    .admin-status-message {
+      border-radius: 1rem;
+      border: 1px solid rgba(191,219,254,.82);
+      background: rgba(239,246,255,.92);
+      color: #1e3a8a;
+      padding: .85rem 1rem;
+      font-size: .86rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .admin-table-wrap {
+      position: relative;
+      overflow-x: auto;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(226,232,240,.95);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 14px 32px rgba(15,23,42,.06);
+    }
+    .admin-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+    }
+    .admin-table th,
+    .admin-table td {
+      padding: .9rem 1rem;
+      border-bottom: 1px solid rgba(226,232,240,.9);
+      text-align: left;
+      vertical-align: top;
+    }
+    .admin-table th {
+      background: rgba(248,250,252,.95);
+      color: #475569;
+      font-size: .7rem;
+      font-weight: 950;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .admin-table td {
+      color: #334155;
+      font-size: .88rem;
+      font-weight: 650;
+    }
+    .admin-table tr:last-child td { border-bottom: 0; }
+    .admin-settings-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.35rem;
+      border: 1px solid rgba(226,232,240,.95);
+      background: rgba(255,255,255,.88);
+      padding: 1rem;
+      box-shadow: 0 14px 32px rgba(15,23,42,.06);
+    }
+    @media (max-width: 640px) {
+      .admin-tab-row > div { width: max-content; min-width: 100%; }
+      .admin-tab-row { overflow-x: auto; }
+      .admin-tab-button { white-space: nowrap; }
+      .admin-stat-card { border-radius: 1.1rem; }
+    }
+
 </style>
 </head>
 <body class="text-slate-800 min-h-screen">
@@ -2331,12 +2461,6 @@
 <div class="font-black tracking-tight text-lg sm:text-xl text-medicalBlue uppercase">Real World <span class="text-blue-600">CE</span></div>
 <div class="text-[11px] sm:text-sm text-slate-500 font-medium">Clinical learning portal</div>
 </div>
-<div class="hidden lg:flex items-center gap-3 text-sm">
-<a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#library">Library</a>
-<a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#featured">Featured</a>
-<a class="px-4 py-2 rounded-full border border-slate-200 text-slate-600 font-semibold hover:border-blue-300 hover:text-blue-700 transition" href="#collections">Collections</a>
-<a class="px-4 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-glow" href="#library">Launch Center</a>
-</div>
 <div class="header-account-actions">
 <div aria-label="Logged in user and viewed modules" class="user-status-badge">
 <span aria-hidden="true" class="material-symbols-outlined">account_circle</span>
@@ -2354,14 +2478,6 @@
 <span aria-hidden="true" class="material-symbols-outlined">logout</span>
 <span>Logout</span>
 </button>
-</div>
-<div class="mobile-chip-row lg:hidden -mx-1 overflow-x-auto">
-<div class="flex w-max gap-2 px-1 pb-1">
-<a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#library">Library</a>
-<a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#featured">Featured</a>
-<a class="px-3 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-sm font-semibold whitespace-nowrap" href="#collections">Collections</a>
-<a class="px-3 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold whitespace-nowrap shadow-glow" href="#library">Launch</a>
-</div>
 </div>
 </div>
 </header>
@@ -2752,102 +2868,124 @@
 <div class="text-xs font-black uppercase tracking-[0.18em] text-blue-700">Manager / Admin Portal</div>
 <h1 class="mt-2 text-2xl sm:text-4xl font-black tracking-tight text-medicalBlue">Portal command center</h1>
 <p class="mt-3 max-w-3xl text-sm sm:text-base font-medium leading-relaxed text-slate-600">
-Use this page to review user roles, confirm account permissions, and manage approved profile records. Learners do not see the Manager Portal button.
+Managers can view reports, module analytics, export CSV reports, and add users. Admins have full access, including settings and admin-level user creation. Learners do not see the Manager Portal button.
 </p>
 </div>
-<button class="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-black text-white shadow-glow transition hover:bg-blue-700" id="refreshManagerPortalBtn" type="button">
-<span aria-hidden="true" class="material-symbols-outlined text-[18px]">refresh</span>
-Refresh Portal Data
+<div class="flex flex-col sm:flex-row gap-2">
+<button class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-blue-300 hover:text-blue-700" id="refreshManagerPortalBtn" type="button">
+<span aria-hidden="true" class="material-symbols-outlined text-[18px]">sync</span>
+Refresh Data
+</button>
+<button class="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-black text-white shadow-glow transition hover:bg-blue-700" id="exportManagerCsvBtn" type="button">
+<span aria-hidden="true" class="material-symbols-outlined text-[18px]">download</span>
+Export CSV
 </button>
 </div>
-<div class="mt-4 hidden rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800" id="managerPortalMessage"></div>
+</div>
+<div class="mt-4 admin-status-message" id="managerPortalMessage">Manager portal restored. Data loads when a manager or admin opens this page.</div>
 </section>
 
 <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-<div class="glass rounded-3xl p-5 shadow-soft">
-<div class="text-[11px] uppercase tracking-widest font-black text-slate-500">Total Profiles</div>
-<div class="mt-2 text-3xl font-black text-medicalBlue" id="managerTotalUsers">0</div>
+<div class="admin-stat-card"><span aria-hidden="true" class="material-symbols-outlined">group</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Users</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatUsers">0</div></div>
+<div class="admin-stat-card"><span aria-hidden="true" class="material-symbols-outlined">library_books</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Modules</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatModules">0</div></div>
+<div class="admin-stat-card"><span aria-hidden="true" class="material-symbols-outlined">monitoring</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Activity</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatCompletions">0</div></div>
+<div class="admin-stat-card"><span aria-hidden="true" class="material-symbols-outlined">timer</span><div class="mt-3 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Avg. Minutes</div><div class="mt-1 text-2xl font-black text-medicalBlue" id="adminStatAvgTime">0</div></div>
+</section>
+
+<div class="hidden">
+<span id="managerTotalUsers">0</span><span id="managerAdminCount">0</span><span id="managerManagerCount">0</span><span id="managerLearnerCount">0</span>
 </div>
-<div class="glass rounded-3xl p-5 shadow-soft">
-<div class="text-[11px] uppercase tracking-widest font-black text-violet-600">Admins</div>
-<div class="mt-2 text-3xl font-black text-medicalBlue" id="managerAdminCount">0</div>
+
+<div class="admin-tab-row">
+<div class="flex flex-wrap gap-2">
+<button class="admin-tab-button is-active" type="button" data-admin-tab="dashboard">Dashboard</button>
+<button class="admin-tab-button" type="button" data-admin-tab="reports">User Reports</button>
+<button class="admin-tab-button" type="button" data-admin-tab="analytics">Module Analytics</button>
+<button class="admin-tab-button" type="button" data-admin-tab="users">Add Users</button>
+<button class="admin-tab-button" type="button" data-admin-tab="settings" data-admin-only>Settings</button>
 </div>
-<div class="glass rounded-3xl p-5 shadow-soft">
-<div class="text-[11px] uppercase tracking-widest font-black text-sky-600">Managers</div>
-<div class="mt-2 text-3xl font-black text-medicalBlue" id="managerManagerCount">0</div>
 </div>
-<div class="glass rounded-3xl p-5 shadow-soft">
-<div class="text-[11px] uppercase tracking-widest font-black text-emerald-600">Learners</div>
-<div class="mt-2 text-3xl font-black text-medicalBlue" id="managerLearnerCount">0</div>
+
+<div class="space-y-5">
+<section class="admin-view-panel is-active" id="adminViewDashboard">
+<div class="grid gap-5 xl:grid-cols-[1.25fr_.75fr]">
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Recent Module Activity</th><th>User</th><th>Status</th><th>Updated</th></tr></thead>
+<tbody id="recentActivityRows"><tr><td colspan="4">No activity loaded yet.</td></tr></tbody>
+</table>
+</div>
+<div class="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-soft">
+<div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Portal Controls</div>
+<h3 class="mt-2 text-xl font-black text-medicalBlue">Role-based access is active</h3>
+<p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Learners see the module portal. Managers can access reports, analytics, CSV export, and add users. Admins have access to all portal tools, including settings and admin-level role creation.</p>
+<div class="mt-4 grid gap-2 text-sm font-bold text-slate-600">
+<div class="rounded-2xl bg-slate-50 p-3">Current role: <span class="font-black text-blue-700" id="adminCurrentRole">Locked</span></div>
+<div class="rounded-2xl bg-slate-50 p-3">Organization: <span class="font-black text-blue-700" id="adminCurrentOrg">Real World CE</span></div>
+<div class="rounded-2xl bg-slate-50 p-3">Tracking source: <span class="font-black text-blue-700" id="adminTrackingSource">Local/Supabase hybrid</span></div>
+</div>
+</div>
 </div>
 </section>
 
-<section class="grid gap-6 xl:grid-cols-[1.25fr_.75fr]">
-<div class="glass rounded-3xl p-5 sm:p-6 shadow-soft overflow-hidden">
-<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-<div>
-<div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">User Reports</div>
-<h2 class="mt-1 text-xl sm:text-2xl font-black tracking-tight text-medicalBlue">Profile access list</h2>
-</div>
+<section class="admin-view-panel" id="adminViewReports">
+<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+<div><h3 class="text-xl font-black text-medicalBlue">User Reports</h3><p class="text-sm font-semibold text-slate-500">Approved profile records and visible portal activity.</p></div>
 <input class="w-full sm:max-w-xs rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition focus:border-blue-400" id="managerUserSearch" placeholder="Search users" type="search" />
 </div>
-<div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white/80">
-<table class="min-w-full text-left text-sm">
-<thead class="bg-slate-50 text-[11px] uppercase tracking-widest text-slate-500">
-<tr>
-<th class="px-4 py-3 font-black">Name</th>
-<th class="px-4 py-3 font-black">Email</th>
-<th class="px-4 py-3 font-black">Role</th>
-<th class="px-4 py-3 font-black">Created</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-200" id="managerUserTableBody">
-<tr><td class="px-4 py-5 text-slate-500 font-semibold" colspan="4">Open the Manager Portal to load users.</td></tr>
-</tbody>
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Viewed Modules</th><th>Created</th></tr></thead>
+<tbody id="managerUserTableBody"><tr><td colspan="5">Open the Manager Portal to load users.</td></tr></tbody>
 </table>
 </div>
-</div>
+</section>
 
-<div class="glass rounded-3xl p-5 sm:p-6 shadow-soft">
-<div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Add User</div>
-<h2 class="mt-1 text-xl sm:text-2xl font-black tracking-tight text-medicalBlue">Create portal access</h2>
-<p class="mt-2 text-sm font-medium leading-relaxed text-slate-600">
-This uses your Supabase Edge Function named <span class="font-black text-medicalBlue">rwce-admin-create-user</span>. Do not place a service-role key in this HTML file.
-</p>
-<form class="mt-5 space-y-3" id="managerAddUserForm">
-<label class="block">
-<span class="text-xs font-black uppercase tracking-widest text-slate-500">Full Name</span>
-<input class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserFullName" required type="text" />
-</label>
-<label class="block">
-<span class="text-xs font-black uppercase tracking-widest text-slate-500">Email</span>
-<input class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserEmail" required type="email" />
-</label>
-<label class="block">
-<span class="text-xs font-black uppercase tracking-widest text-slate-500">Role</span>
-<select class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black outline-none transition focus:border-blue-400" id="newUserRole">
-<option value="learner">Learner</option>
-<option value="manager">Manager</option>
-<option value="admin">Admin</option>
-</select>
-</label>
-<label class="block">
-<span class="text-xs font-black uppercase tracking-widest text-slate-500">Temporary Password</span>
-<div class="mt-1 grid gap-2 sm:grid-cols-[1fr_auto]">
-<input class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserPassword" required type="text" />
-<button class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-blue-300 hover:text-blue-700" id="generateTempPasswordBtn" type="button">Generate</button>
+<section class="admin-view-panel" id="adminViewAnalytics">
+<div class="mb-4"><h3 class="text-xl font-black text-medicalBlue">Module Analytics</h3><p class="text-sm font-semibold text-slate-500">Module launch counts and format details from the portal cards.</p></div>
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Module</th><th>Clinical Area</th><th>Format</th><th>Views</th></tr></thead>
+<tbody id="moduleAnalyticsRows"><tr><td colspan="4">No module analytics loaded yet.</td></tr></tbody>
+</table>
 </div>
-</label>
-<button class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-black text-white shadow-glow transition hover:bg-blue-700" type="submit">
-<span class="material-symbols-outlined text-[18px]">person_add</span>
-Add User
-</button>
+</section>
+
+<section class="admin-view-panel" id="adminViewUsers">
+<div class="grid gap-5 xl:grid-cols-[.85fr_1.15fr]">
+<div class="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-soft">
+<div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Add Users</div>
+<h3 class="mt-2 text-xl font-black text-medicalBlue">Create portal access</h3>
+<p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Managers can add learner or manager accounts. Admins can add learner, manager, or admin accounts. This uses the Supabase Edge Function named <span class="font-black text-medicalBlue">rwce-admin-create-user</span>. Do not place a service-role key in this HTML file.</p>
+</div>
+<div class="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-soft">
+<form class="space-y-3" id="managerAddUserForm">
+<label class="block"><span class="text-xs font-black uppercase tracking-widest text-slate-500">Full Name</span><input class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserFullName" required type="text" /></label>
+<label class="block"><span class="text-xs font-black uppercase tracking-widest text-slate-500">Email</span><input class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserEmail" required type="email" /></label>
+<label class="block"><span class="text-xs font-black uppercase tracking-widest text-slate-500">Role</span><select class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black outline-none transition focus:border-blue-400" id="newUserRole"><option value="learner">Learner</option><option value="manager">Manager</option><option value="admin" data-admin-role-option>Admin</option></select></label>
+<label class="block"><span class="text-xs font-black uppercase tracking-widest text-slate-500">Temporary Password</span><div class="mt-1 grid gap-2 sm:grid-cols-[1fr_auto]"><input class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-blue-400" id="newUserPassword" required type="text" /><button class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-blue-300 hover:text-blue-700" id="generateTempPasswordBtn" type="button">Generate</button></div></label>
+<button class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-black text-white shadow-glow transition hover:bg-blue-700" type="submit"><span class="material-symbols-outlined text-[18px]">person_add</span>Add User</button>
 <div class="hidden rounded-2xl border px-4 py-3 text-sm font-bold" id="managerAddUserMessage"></div>
 </form>
 </div>
+</div>
 </section>
+
+<section class="admin-view-panel" id="adminViewSettings" data-admin-only>
+<div class="grid gap-4 lg:grid-cols-2">
+<div class="admin-settings-card"><h3 class="text-xl font-black text-medicalBlue">Settings</h3><p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Admin-only area for configuration checks. Managers and learners do not see this tab.</p><div class="mt-4 grid gap-2 text-sm font-bold text-slate-600"><div class="rounded-2xl bg-slate-50 p-3">Supabase URL: <span class="font-black text-blue-700" id="settingsSupabaseUrl">Configured</span></div><div class="rounded-2xl bg-slate-50 p-3">Auth Status: <span class="font-black text-blue-700" id="settingsAuthStatus">Checking</span></div></div></div>
+<div class="admin-settings-card"><h3 class="text-xl font-black text-medicalBlue">Admin Notes</h3><p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Use this page for user management, role checks, reporting review, and future database-backed learner activity controls.</p></div>
+</div>
+</section>
+</div>
 </main>
 </section>
+
+
+
+
+
+
 
 <section aria-live="polite" class="hidden min-h-screen bg-slate-50" id="moduleViewer">
 <div class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
@@ -3039,12 +3177,27 @@ Add User
     function updateRoleGatedUI() {
       const role = activeUserRole();
       const canManage = canAccessManagerPortal(role);
+      const isAdmin = isAdminRole(role);
       const roleLabel = formatRole(role);
 
       document.querySelectorAll('[data-manager-portal-button]').forEach(button => {
         button.classList.toggle('hidden', !canManage);
         button.setAttribute('aria-hidden', canManage ? 'false' : 'true');
       });
+
+      document.querySelectorAll('[data-admin-only]').forEach(node => {
+        node.classList.toggle('hidden', !isAdmin);
+      });
+
+      document.querySelectorAll('[data-admin-role-option]').forEach(option => {
+        option.hidden = !isAdmin;
+        option.disabled = !isAdmin;
+      });
+
+      const roleSelect = document.getElementById('newUserRole');
+      if (roleSelect && !isAdmin && roleSelect.value === 'admin') {
+        roleSelect.value = 'learner';
+      }
 
       const activeRoleBadge = document.getElementById('activeUserRoleBadge');
       if (activeRoleBadge) activeRoleBadge.textContent = roleLabel;
@@ -3053,7 +3206,9 @@ Add User
       if (managerRoleBadge) managerRoleBadge.textContent = roleLabel;
 
       const managerTitle = document.getElementById('managerPortalTitle');
-      if (managerTitle) managerTitle.textContent = isAdminRole(role) ? 'Admin Portal' : 'Manager Portal';
+      if (managerTitle && !document.querySelector('.admin-tab-button.is-active')) {
+        managerTitle.textContent = isAdmin ? 'Admin Portal' : 'Manager Portal';
+      }
     }
 
     function userViewedModulesKey(username = activeUserName()) {
@@ -3334,6 +3489,11 @@ Add User
 
     let managerProfilesCache = [];
 
+    function setText(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
     function setManagerPortalMessage(message, type = 'info') {
       const node = document.getElementById('managerPortalMessage');
       if (!node) return;
@@ -3343,10 +3503,11 @@ Add User
         return;
       }
       node.textContent = message;
-      node.classList.remove('hidden', 'border-amber-200', 'bg-amber-50', 'text-amber-800', 'border-red-200', 'bg-red-50', 'text-red-800', 'border-emerald-200', 'bg-emerald-50', 'text-emerald-800');
+      node.classList.remove('hidden', 'border-blue-200', 'bg-blue-50', 'text-blue-800', 'border-amber-200', 'bg-amber-50', 'text-amber-800', 'border-red-200', 'bg-red-50', 'text-red-800', 'border-emerald-200', 'bg-emerald-50', 'text-emerald-800');
       if (type === 'error') node.classList.add('border-red-200', 'bg-red-50', 'text-red-800');
       else if (type === 'success') node.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-800');
-      else node.classList.add('border-amber-200', 'bg-amber-50', 'text-amber-800');
+      else if (type === 'warning') node.classList.add('border-amber-200', 'bg-amber-50', 'text-amber-800');
+      else node.classList.add('border-blue-200', 'bg-blue-50', 'text-blue-800');
     }
 
     function setAddUserMessage(message, type = 'info') {
@@ -3383,6 +3544,134 @@ Add User
         .replace(/'/g, '&#039;');
     }
 
+    function normalizeTitleFromDataset(value) {
+      return String(value || '')
+        .replace(/realworldce\/[^\s]+/gi, '')
+        .replace(/real world (patient|sim|data|case|quiz)/gi, '')
+        .replace(/hematology|oncology|urology|neurology|immunology|rare disease|rheumatology|dermatology|gastroenterology|infectious disease|psychiatry/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function moduleLinksForAnalytics() {
+      return Array.from(document.querySelectorAll('#moduleGrid .module-card')).map(card => {
+        const link = card.querySelector('a.tracked-link[data-view-key], a.tracked-link[href], a[href]');
+        const viewKey = link?.dataset.viewKey || link?.href || '';
+        const titleNode = card.querySelector('.marketing-card__title, h3');
+        const title = titleNode?.textContent?.trim() || normalizeTitleFromDataset(card.dataset.title) || 'Untitled Module';
+        const area = (card.dataset.area || 'Real World CE').replace(/\s*\/\s*/g, ' / ');
+        const format = card.dataset.kind || card.dataset.formatLabel || 'Module';
+        return {
+          title,
+          key: viewKey,
+          area,
+          format: format.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+          views: viewKey ? readViewCount(viewKey) : 0
+        };
+      });
+    }
+
+    function moduleByViewKey() {
+      return moduleLinksForAnalytics().reduce((acc, module) => {
+        if (module.key) acc[module.key] = module;
+        return acc;
+      }, {});
+    }
+
+    function visiblePortalActivity() {
+      const modules = moduleByViewKey();
+      const username = activeUserName();
+      const email = localStorage.getItem('rwce_active_user_email') || '';
+      const viewed = readUserViewedModules(username).map(key => {
+        const module = modules[key] || { title: key, key, views: readViewCount(key) };
+        return {
+          module: module.title,
+          user: username,
+          email,
+          status: 'Viewed',
+          updated: 'Local browser',
+          views: module.views || readViewCount(key)
+        };
+      });
+
+      if (viewed.length) return viewed;
+
+      return moduleLinksForAnalytics()
+        .filter(module => module.views > 0)
+        .sort((a, b) => b.views - a.views)
+        .slice(0, 10)
+        .map(module => ({
+          module: module.title,
+          user: 'Portal users',
+          email: '',
+          status: `${module.views} launch${module.views === 1 ? '' : 'es'}`,
+          updated: 'Local browser',
+          views: module.views
+        }));
+    }
+
+    function renderRecentActivityRows() {
+      const tbody = document.getElementById('recentActivityRows');
+      if (!tbody) return;
+      const rows = visiblePortalActivity().slice(0, 12);
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="4">No recent module activity yet. Launch a module to populate this table.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(row => `
+        <tr>
+          <td><div class="font-black text-medicalBlue">${safeHtml(row.module)}</div><div class="text-xs text-slate-500">${safeHtml(row.email || 'Tracked locally')}</div></td>
+          <td>${safeHtml(row.user)}</td>
+          <td><span class="view-pill">${safeHtml(row.status)}</span></td>
+          <td>${safeHtml(row.updated)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderModuleAnalyticsRows() {
+      const tbody = document.getElementById('moduleAnalyticsRows');
+      if (!tbody) return;
+      const rows = moduleLinksForAnalytics().sort((a, b) => b.views - a.views || a.title.localeCompare(b.title));
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="4">No module links were found for analytics.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(row => `
+        <tr>
+          <td><div class="font-black text-medicalBlue">${safeHtml(row.title)}</div><div class="text-xs text-slate-500">${safeHtml(row.key)}</div></td>
+          <td>${safeHtml(row.area)}</td>
+          <td>${safeHtml(row.format)}</td>
+          <td><span class="view-pill">${row.views} views</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function updateManagerStats() {
+      const counts = managerProfilesCache.reduce((acc, profile) => {
+        const role = normalizeRole(profile.role);
+        acc.total += 1;
+        acc[role] += 1;
+        return acc;
+      }, { total: 0, admin: 0, manager: 0, learner: 0 });
+      const moduleRows = moduleLinksForAnalytics();
+      const activityRows = visiblePortalActivity();
+      const totalViews = moduleRows.reduce((sum, row) => sum + Number(row.views || 0), 0);
+
+      setText('managerTotalUsers', counts.total);
+      setText('managerAdminCount', counts.admin);
+      setText('managerManagerCount', counts.manager);
+      setText('managerLearnerCount', counts.learner);
+      setText('adminStatUsers', counts.total);
+      setText('adminStatModules', moduleRows.length);
+      setText('adminStatCompletions', activityRows.length || totalViews || 0);
+      setText('adminStatAvgTime', activityRows.length ? '—' : '0');
+      setText('adminCurrentRole', formatRole(activeUserRole()));
+      setText('adminCurrentOrg', 'Real World CE');
+      setText('adminTrackingSource', rwceSupabaseReady ? 'Supabase profiles + local launch tracking' : 'Local launch tracking');
+      setText('settingsSupabaseUrl', rwceSupabaseReady ? 'Configured' : 'Not connected');
+      setText('settingsAuthStatus', localStorage.getItem('rwce_active_user_email') ? 'Signed in' : 'Not signed in');
+    }
+
     function renderManagerProfiles(filterTerm = '') {
       const body = document.getElementById('managerUserTableBody');
       const term = String(filterTerm || '').toLowerCase().trim();
@@ -3392,37 +3681,66 @@ Add User
         profile.role || ''
       ].join(' ').toLowerCase().includes(term));
 
-      const counts = managerProfilesCache.reduce((acc, profile) => {
-        const role = normalizeRole(profile.role);
-        acc.total += 1;
-        acc[role] += 1;
-        return acc;
-      }, { total: 0, admin: 0, manager: 0, learner: 0 });
-
-      const totalNode = document.getElementById('managerTotalUsers');
-      const adminNode = document.getElementById('managerAdminCount');
-      const managerNode = document.getElementById('managerManagerCount');
-      const learnerNode = document.getElementById('managerLearnerCount');
-      if (totalNode) totalNode.textContent = counts.total;
-      if (adminNode) adminNode.textContent = counts.admin;
-      if (managerNode) managerNode.textContent = counts.manager;
-      if (learnerNode) learnerNode.textContent = counts.learner;
-
       if (!body) return;
       if (!profiles.length) {
-        body.innerHTML = '<tr><td class="px-4 py-5 text-slate-500 font-semibold" colspan="4">No users found.</td></tr>';
+        body.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
+        updateManagerStats();
         return;
       }
 
+      const activeEmail = (localStorage.getItem('rwce_active_user_email') || '').toLowerCase();
+      const activeViewedCount = readUserViewedModules(activeUserName()).length;
+
       body.innerHTML = profiles.map(profile => {
         const created = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : '—';
+        const email = String(profile.email || '').toLowerCase();
+        const viewed = email && email === activeEmail ? activeViewedCount : '—';
         return `<tr class="hover:bg-blue-50/50 transition">
-          <td class="px-4 py-3 font-black text-medicalBlue">${safeHtml(profile.full_name || 'Unnamed User')}</td>
-          <td class="px-4 py-3 font-semibold text-slate-600">${safeHtml(profile.email || '—')}</td>
-          <td class="px-4 py-3">${rolePill(profile.role)}</td>
-          <td class="px-4 py-3 font-semibold text-slate-500">${safeHtml(created)}</td>
+          <td><div class="font-black text-medicalBlue">${safeHtml(profile.full_name || 'Unnamed User')}</div></td>
+          <td>${safeHtml(profile.email || '—')}</td>
+          <td>${rolePill(profile.role)}</td>
+          <td>${safeHtml(viewed)}</td>
+          <td>${safeHtml(created)}</td>
         </tr>`;
       }).join('');
+      updateManagerStats();
+    }
+
+    function refreshManagerPortalViews(users = managerProfilesCache) {
+      if (Array.isArray(users)) managerProfilesCache = users;
+      renderRecentActivityRows();
+      renderManagerProfiles(document.getElementById('managerUserSearch')?.value || '');
+      renderModuleAnalyticsRows();
+      updateManagerStats();
+      updateRoleGatedUI();
+    }
+
+    function showManagerPortalTab(tab) {
+      updateRoleGatedUI();
+      if (tab === 'settings' && !isAdminRole()) tab = 'dashboard';
+      const panelMap = {
+        dashboard: 'adminViewDashboard',
+        reports: 'adminViewReports',
+        analytics: 'adminViewAnalytics',
+        users: 'adminViewUsers',
+        settings: 'adminViewSettings'
+      };
+      const targetId = panelMap[tab] || panelMap.dashboard;
+      document.querySelectorAll('.admin-view-panel').forEach(panel => panel.classList.remove('is-active'));
+      const target = document.getElementById(targetId);
+      if (target) target.classList.add('is-active');
+      document.querySelectorAll('[data-admin-tab]').forEach(button => {
+        button.classList.toggle('is-active', button.dataset.adminTab === tab);
+      });
+      const titleMap = {
+        dashboard: 'System Overview',
+        reports: 'User Reports',
+        analytics: 'Module Analytics',
+        users: 'Add Users',
+        settings: 'Settings'
+      };
+      const managerTitle = document.getElementById('managerPortalTitle');
+      if (managerTitle) managerTitle.textContent = titleMap[tab] || 'Manager Portal';
     }
 
     async function loadManagerPortalData() {
@@ -3432,7 +3750,7 @@ Add User
       }
 
       updateRoleGatedUI();
-      setManagerPortalMessage('Loading portal data…');
+      setManagerPortalMessage('Loading manager portal data…');
 
       if (!rwceSupabaseReady || !rwceSupabase) {
         managerProfilesCache = [{
@@ -3441,8 +3759,8 @@ Add User
           role: activeUserRole(),
           created_at: ''
         }];
-        renderManagerProfiles(document.getElementById('managerUserSearch')?.value || '');
-        setManagerPortalMessage('Supabase is not connected, so only the current local user can be shown.', 'error');
+        refreshManagerPortalViews(managerProfilesCache);
+        setManagerPortalMessage('Supabase is not connected, so reporting is using local browser activity only.', 'warning');
         return;
       }
 
@@ -3455,8 +3773,8 @@ Add User
         if (error) throw error;
 
         managerProfilesCache = Array.isArray(data) ? data : [];
-        renderManagerProfiles(document.getElementById('managerUserSearch')?.value || '');
-        setManagerPortalMessage(managerProfilesCache.length ? '' : 'No profile records were returned from Supabase. Check the profiles table and RLS policies.');
+        refreshManagerPortalViews(managerProfilesCache);
+        setManagerPortalMessage(`Loaded ${managerProfilesCache.length} approved profile record${managerProfilesCache.length === 1 ? '' : 's'}. Module activity and analytics use the portal launch tracking available in this HTML file.`, 'success');
       } catch (error) {
         managerProfilesCache = [{
           full_name: activeUserName(),
@@ -3464,7 +3782,7 @@ Add User
           role: activeUserRole(),
           created_at: ''
         }];
-        renderManagerProfiles(document.getElementById('managerUserSearch')?.value || '');
+        refreshManagerPortalViews(managerProfilesCache);
         setManagerPortalMessage(`Could not load all profiles from Supabase: ${error.message || error}. Check your profiles RLS policy.`, 'error');
       }
     }
@@ -3483,6 +3801,7 @@ Add User
       if (moduleViewer) moduleViewer.classList.add('hidden');
       if (portalShell) portalShell.classList.add('hidden');
       if (managerPortal) managerPortal.classList.remove('hidden');
+      showManagerPortalTab('dashboard');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       loadManagerPortalData();
     }
@@ -3513,6 +3832,11 @@ Add User
       const email = document.getElementById('newUserEmail')?.value.trim().toLowerCase() || '';
       const role = normalizeRole(document.getElementById('newUserRole')?.value || 'learner');
       const password = document.getElementById('newUserPassword')?.value || '';
+
+      if (role === 'admin' && !isAdminRole()) {
+        setAddUserMessage('Only admins can create admin accounts. Managers can add learner or manager accounts.', 'error');
+        return;
+      }
 
       if (!fullName || !email || !password) {
         setAddUserMessage('Full name, email, and temporary password are required.', 'error');
@@ -3552,6 +3876,7 @@ Add User
         }
 
         form.reset();
+        updateRoleGatedUI();
         const passwordInput = document.getElementById('newUserPassword');
         if (passwordInput) passwordInput.value = generatedPassword();
         setAddUserMessage('User created successfully.', 'success');
@@ -3566,6 +3891,43 @@ Add User
       }
     }
 
+    function exportManagerCSV() {
+      const profileRows = managerProfilesCache.map(profile => ({
+        Type: 'User Report',
+        Name: profile.full_name || '',
+        Email: profile.email || '',
+        Role: formatRole(profile.role),
+        Module: '',
+        Clinical_Area: '',
+        Format: '',
+        Views: '',
+        Created: profile.created_at || ''
+      }));
+      const moduleRows = moduleLinksForAnalytics().map(module => ({
+        Type: 'Module Analytics',
+        Name: '',
+        Email: '',
+        Role: '',
+        Module: module.title,
+        Clinical_Area: module.area,
+        Format: module.format,
+        Views: module.views,
+        Created: ''
+      }));
+      const rows = [...profileRows, ...moduleRows];
+      const headers = ['Type', 'Name', 'Email', 'Role', 'Module', 'Clinical_Area', 'Format', 'Views', 'Created'];
+      const csv = [headers.join(','), ...rows.map(row => headers.map(header => `"${String(row[header] ?? '').replaceAll('"', '""')}"`).join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `realworldce-manager-report-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
     function initializeManagerPortal() {
       updateRoleGatedUI();
 
@@ -3578,6 +3940,13 @@ Add User
 
       const refreshButton = document.getElementById('refreshManagerPortalBtn');
       if (refreshButton) refreshButton.addEventListener('click', loadManagerPortalData);
+
+      document.querySelectorAll('[data-admin-tab]').forEach(button => {
+        button.addEventListener('click', () => showManagerPortalTab(button.dataset.adminTab || 'dashboard'));
+      });
+
+      const exportButton = document.getElementById('exportManagerCsvBtn');
+      if (exportButton) exportButton.addEventListener('click', exportManagerCSV);
 
       const searchInput = document.getElementById('managerUserSearch');
       if (searchInput) searchInput.addEventListener('input', event => renderManagerProfiles(event.target.value));
@@ -3595,6 +3964,8 @@ Add User
 
       const addUserForm = document.getElementById('managerAddUserForm');
       if (addUserForm) addUserForm.addEventListener('submit', createManagerPortalUser);
+
+      refreshManagerPortalViews([]);
     }
 
 
