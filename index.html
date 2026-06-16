@@ -2984,13 +2984,13 @@
 
       <section class="admin-view-panel" id="adminViewReports">
         <div class="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold leading-relaxed text-amber-900">
-          Deleting a user removes their Supabase Authentication account and matching profile. You cannot delete your own account. Managers can delete learners; administrators can delete learners and managers.
+          Login Count records each successful portal sign-in. Last Login shows the most recent successful sign-in. Deleting a user removes their Supabase Authentication account and matching profile. You cannot delete your own account. Managers can delete learners; administrators can delete learners and managers.
         </div>
         <div class="admin-status-message hidden mb-4" id="deleteUserStatus"></div>
         <div class="admin-table-wrap">
           <table class="admin-table">
-            <thead><tr><th>Learner/User</th><th>Email</th><th>Role</th><th>Sessions</th><th>Completions</th><th>Credits</th><th>Actions</th></tr></thead>
-            <tbody id="userReportRows"><tr><td colspan="7">No users loaded yet.</td></tr></tbody>
+            <thead><tr><th>Learner/User</th><th>Email</th><th>Role</th><th>Logins</th><th>Last Login</th><th>Sessions</th><th>Completions</th><th>Credits</th><th>Actions</th></tr></thead>
+            <tbody id="userReportRows"><tr><td colspan="9">No users loaded yet.</td></tr></tbody>
           </table>
         </div>
       </section>
@@ -3404,7 +3404,7 @@
     }
 
 
-    const RWCE_PROFILE_SELECT = 'id, organization_id, full_name, email, role, created_at, updated_at';
+    const RWCE_PROFILE_SELECT = 'id, organization_id, full_name, email, role, login_count, last_login_at, created_at, updated_at';
 
     function normalizePortalRole(role) {
       const value = String(role || 'learner').trim().toLowerCase().replace(/[_-]+/g, ' ');
@@ -3553,6 +3553,23 @@
       };
     }
 
+    async function recordSuccessfulPortalLogin() {
+      if (!rwceSupabaseReady || !rwceSupabase) return null;
+
+      try {
+        const { data, error } = await rwceSupabase.rpc('record_portal_login');
+        if (error) {
+          console.warn('Login succeeded, but login tracking could not be updated:', error.message);
+          return null;
+        }
+
+        return Array.isArray(data) ? (data[0] || null) : (data || null);
+      } catch (error) {
+        console.warn('Login succeeded, but login tracking request failed:', error);
+        return null;
+      }
+    }
+
     async function validateDatabaseLogin(email, password) {
       if (!rwceSupabaseReady || !rwceSupabase) {
         return { ok: false, profile: null, message: 'Database login is not configured. Please contact the administrator.' };
@@ -3584,7 +3601,16 @@
         return { ok: false, profile: null, message: 'This account is not active. Please contact the administrator.' };
       }
 
-      return { ok: true, profile: { ...buildProfileFromAuthUser(authData.user), ...profile, role: normalizePortalRole(profile.role) }, message: '' };
+      const loginRecord = await recordSuccessfulPortalLogin();
+      const trackedProfile = {
+        ...buildProfileFromAuthUser(authData.user),
+        ...profile,
+        role: normalizePortalRole(profile.role),
+        login_count: Number(loginRecord?.login_count ?? profile.login_count ?? 0),
+        last_login_at: loginRecord?.last_login_at ?? profile.last_login_at ?? null
+      };
+
+      return { ok: true, profile: trackedProfile, message: '' };
     }
 
     async function activatePortalForProfile(profile) {
@@ -3939,8 +3965,10 @@
             : currentRole === 'manager' && targetRole === 'learner';
           const canDelete = Boolean(user.id && !isSelf && mayDeleteRole);
           const actionLabel = isSelf ? 'Current account' : targetRole === 'admin' ? 'Protected admin' : 'Delete user';
-          return `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(targetRole)}</td><td>${safeText(user.session_count)}</td><td>${safeText(user.completion_count)}</td><td>${safeText(Number(user.credits || 0).toFixed(1))}</td><td><button type="button" class="rwce-delete-user-button" data-delete-user-id="${safeText(user.id || '')}" data-delete-user-name="${safeText(user.full_name || user.email || 'this user')}" data-delete-user-email="${safeText(user.email || '')}" ${canDelete ? '' : 'disabled'}><span class="material-symbols-outlined text-[16px]">delete</span>${safeText(actionLabel)}</button></td></tr>`;
-        }).join('') : '<tr><td colspan="7">No users found. Check manager/admin profile read policies.</td></tr>';
+          const loginCount = Number(user.login_count || 0);
+          const lastLogin = user.last_login_at ? formatAdminDate(user.last_login_at) : 'Never';
+          return `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(targetRole)}</td><td>${safeText(loginCount.toLocaleString())}</td><td>${safeText(lastLogin)}</td><td>${safeText(user.session_count)}</td><td>${safeText(user.completion_count)}</td><td>${safeText(Number(user.credits || 0).toFixed(1))}</td><td><button type="button" class="rwce-delete-user-button" data-delete-user-id="${safeText(user.id || '')}" data-delete-user-name="${safeText(user.full_name || user.email || 'this user')}" data-delete-user-email="${safeText(user.email || '')}" ${canDelete ? '' : 'disabled'}><span class="material-symbols-outlined text-[16px]">delete</span>${safeText(actionLabel)}</button></td></tr>`;
+        }).join('') : '<tr><td colspan="9">No users found. Check manager/admin profile read policies.</td></tr>';
       }
 
       const userMgmtRows = document.getElementById('userManagementRows');
@@ -3970,7 +3998,7 @@
       try {
         setAdminStatus('Loading manager portal data from Supabase...', '');
         const [profilesResult, modulesResult, sessionsResult, completionsResult] = await Promise.allSettled([
-          rwceSupabase.from('profiles').select('id, organization_id, full_name, email, role, created_at, updated_at').order('created_at', { ascending: false }).limit(500),
+          rwceSupabase.from('profiles').select('id, organization_id, full_name, email, role, login_count, last_login_at, created_at, updated_at').order('created_at', { ascending: false }).limit(500),
           rwceSupabase.from('modules').select('id, title, repository, module_url, specialty, credit_amount, status, format, description, sort_order, created_at, updated_at').order('sort_order', { ascending: true }).limit(500),
           rwceSupabase.from('module_sessions').select('id, user_id, module_id, started_at, ended_at, time_spent_seconds, completed, completion_percent, last_event, created_at, updated_at').order('updated_at', { ascending: false }).limit(500),
           rwceSupabase.from('module_completions').select('id, user_id, module_id, session_id, completed_at, score, passed, credit_earned, certificate_id, created_at, updated_at').order('completed_at', { ascending: false }).limit(500)
