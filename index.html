@@ -2489,6 +2489,66 @@
       opacity: .45;
     }
 
+
+
+    /* Login and self-registration controls */
+    .auth-mode-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .35rem;
+      margin-bottom: 1rem;
+      padding: .35rem;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 1rem;
+      background: rgba(2,8,23,.22);
+    }
+    #secureLogin .auth-mode-button {
+      min-height: 2.65rem;
+      border: 0 !important;
+      border-radius: .78rem;
+      background: transparent !important;
+      color: rgba(219,234,254,.78) !important;
+      box-shadow: none !important;
+      font-size: .82rem;
+      font-weight: 900;
+      transform: none !important;
+    }
+    #secureLogin .auth-mode-button.active {
+      background: rgba(255,255,255,.96) !important;
+      color: #1e3a8a !important;
+      box-shadow: 0 10px 24px rgba(2,8,23,.20) !important;
+    }
+    #secureLogin .auth-mode-button:focus-visible {
+      outline: 3px solid rgba(142,197,234,.42);
+      outline-offset: 2px;
+    }
+    #signupStatus.auth-status-error {
+      display: block;
+      border: 1px solid rgb(254 202 202);
+      background: rgb(254 242 242);
+      color: rgb(185 28 28);
+    }
+    #signupStatus.auth-status-success {
+      display: block;
+      border: 1px solid rgb(167 243 208);
+      background: rgb(236 253 245);
+      color: rgb(4 120 87);
+    }
+    #signupStatus.auth-status-info {
+      display: block;
+      border: 1px solid rgb(186 230 253);
+      background: rgb(240 249 255);
+      color: rgb(3 105 161);
+    }
+    .auth-account-note {
+      margin: 0;
+      color: rgba(219,234,254,.74);
+      font-size: .72rem;
+      font-weight: 650;
+      line-height: 1.45;
+      text-align: center;
+    }
+
 </style>
 </head>
 <body class="text-slate-800 min-h-screen rwce-auth-locked">
@@ -2517,20 +2577,48 @@
         Secure Database Access
       </div>
 </div>
+<div aria-label="Authentication options" class="auth-mode-switch" role="tablist">
+<button aria-controls="secureLoginForm" aria-selected="true" class="auth-mode-button active" data-auth-mode="login" role="tab" type="button">Sign In</button>
+<button aria-controls="createAccountForm" aria-selected="false" class="auth-mode-button" data-auth-mode="signup" role="tab" type="button">Create Account</button>
+</div>
 <form autocomplete="off" class="space-y-4" id="secureLoginForm">
 <label class="block">
 <span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Email</span>
-<input autocomplete="username" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="loginEmail" placeholder="Email address" type="email"/>
+<input autocomplete="username" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="loginEmail" placeholder="Email address" required type="email"/>
 </label>
 <label class="block">
 <span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Password</span>
-<input autocomplete="current-password" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="loginPassword" placeholder="Password" type="password"/>
+<input autocomplete="current-password" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="loginPassword" placeholder="Password" required type="password"/>
 </label>
 <div class="hidden rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700" id="loginError">Invalid email or password. Please try again.</div>
-<button class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" type="submit">
+<button class="auth-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" type="submit">
 <span class="material-symbols-outlined text-[20px]">login</span>
         Enter Portal
       </button>
+</form>
+<form autocomplete="off" class="hidden space-y-4" id="createAccountForm">
+<label class="block">
+<span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Full Name</span>
+<input autocomplete="name" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupFullName" maxlength="120" placeholder="First and last name" required type="text"/>
+</label>
+<label class="block">
+<span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Email</span>
+<input autocomplete="email" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupEmail" placeholder="Email address" required type="email"/>
+</label>
+<label class="block">
+<span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Create Password</span>
+<input autocomplete="new-password" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupPassword" minlength="8" placeholder="At least 8 characters" required type="password"/>
+</label>
+<label class="block">
+<span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Confirm Password</span>
+<input autocomplete="new-password" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupPasswordConfirm" minlength="8" placeholder="Re-enter password" required type="password"/>
+</label>
+<div aria-live="polite" class="hidden rounded-2xl px-4 py-3 text-sm font-bold" id="signupStatus"></div>
+<button class="auth-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" type="submit">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+        Create Learner Account
+      </button>
+<p class="auth-account-note">New accounts receive learner access only. Your email may need to be verified before you can sign in.</p>
 </form>
 </div>
 </section>
@@ -3570,6 +3658,128 @@
       }
     }
 
+    function setSignupStatus(message = '', type = '') {
+      const node = document.getElementById('signupStatus');
+      if (!node) return;
+      node.textContent = message;
+      node.classList.remove('hidden', 'auth-status-error', 'auth-status-success', 'auth-status-info');
+      if (!message) {
+        node.classList.add('hidden');
+        return;
+      }
+      node.classList.add(`auth-status-${type || 'info'}`);
+    }
+
+    function setAuthenticationMode(mode = 'login') {
+      const isSignup = mode === 'signup';
+      const loginForm = document.getElementById('secureLoginForm');
+      const signupForm = document.getElementById('createAccountForm');
+      const loginEmail = document.getElementById('loginEmail');
+      const signupFullName = document.getElementById('signupFullName');
+      const loginError = document.getElementById('loginError');
+
+      if (loginForm) loginForm.classList.toggle('hidden', isSignup);
+      if (signupForm) signupForm.classList.toggle('hidden', !isSignup);
+      if (loginError) loginError.classList.add('hidden');
+      setSignupStatus('');
+
+      document.querySelectorAll('[data-auth-mode]').forEach(button => {
+        const selected = button.dataset.authMode === mode;
+        button.classList.toggle('active', selected);
+        button.setAttribute('aria-selected', selected ? 'true' : 'false');
+      });
+
+      setTimeout(() => {
+        if (isSignup) signupFullName?.focus();
+        else loginEmail?.focus();
+      }, 50);
+    }
+
+    async function ensureLearnerProfileForNewAccount(user, fullName) {
+      if (!user) return { profile: null, error: 'Supabase did not return the new user.' };
+
+      // Give a database trigger a moment to create the profile first.
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        const existing = await fetchDatabaseProfileForAuthUser(user);
+        if (existing.profile) return existing;
+        await new Promise(resolve => setTimeout(resolve, 350));
+      }
+
+      // Safe fallback for projects that allow users to insert only their own learner profile.
+      const learnerProfile = {
+        id: user.id,
+        full_name: fullName,
+        email: user.email || '',
+        role: 'learner'
+      };
+      const { error: insertError } = await rwceSupabase.from('profiles').insert(learnerProfile);
+      if (insertError && insertError.code !== '23505') {
+        return { profile: null, error: insertError.message || 'The learner profile could not be created.' };
+      }
+
+      return fetchDatabaseProfileForAuthUser(user);
+    }
+
+    async function createLearnerAccount(fullName, email, password) {
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        return { ok: false, profile: null, confirmationRequired: false, message: 'Account creation is not configured. Please contact the administrator.' };
+      }
+
+      const { data, error } = await rwceSupabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            role: 'learner'
+          }
+        }
+      });
+
+      if (error) {
+        const rawMessage = String(error.message || 'Account creation failed.');
+        const message = rawMessage.toLowerCase().includes('already')
+          ? 'An account may already exist for this email. Try signing in instead.'
+          : rawMessage;
+        return { ok: false, profile: null, confirmationRequired: false, message };
+      }
+
+      if (!data?.user) {
+        return { ok: false, profile: null, confirmationRequired: false, message: 'Supabase did not return the new account. Please try again.' };
+      }
+
+      if (!data.session) {
+        return {
+          ok: true,
+          profile: null,
+          confirmationRequired: true,
+          message: 'Account created. Check your email to verify the account, then return here and sign in.'
+        };
+      }
+
+      const { profile, error: profileError } = await ensureLearnerProfileForNewAccount(data.user, fullName);
+      if (profileError || !profile) {
+        await rwceSupabase.auth.signOut();
+        return {
+          ok: false,
+          profile: null,
+          confirmationRequired: false,
+          message: 'The login account was created, but the learner profile could not be added. Run the included Supabase signup setup SQL, then try signing in.'
+        };
+      }
+
+      return {
+        ok: true,
+        profile: {
+          ...buildProfileFromAuthUser(data.user),
+          ...profile,
+          role: 'learner'
+        },
+        confirmationRequired: false,
+        message: ''
+      };
+    }
+
     async function validateDatabaseLogin(email, password) {
       if (!rwceSupabaseReady || !rwceSupabase) {
         return { ok: false, profile: null, message: 'Database login is not configured. Please contact the administrator.' };
@@ -3728,6 +3938,63 @@
         passwordInput.value = '';
         await activatePortalForProfile(result.profile);
       });
+
+      document.querySelectorAll('[data-auth-mode]').forEach(button => {
+        button.addEventListener('click', () => setAuthenticationMode(button.dataset.authMode || 'login'));
+      });
+
+      const signupForm = document.getElementById('createAccountForm');
+      if (signupForm) {
+        signupForm.addEventListener('submit', async event => {
+          event.preventDefault();
+          const fullName = document.getElementById('signupFullName')?.value.trim() || '';
+          const email = document.getElementById('signupEmail')?.value.trim().toLowerCase() || '';
+          const password = document.getElementById('signupPassword')?.value || '';
+          const confirmPassword = document.getElementById('signupPasswordConfirm')?.value || '';
+          const submitButton = signupForm.querySelector('button[type="submit"]');
+
+          if (!fullName || !email || !password || !confirmPassword) {
+            setSignupStatus('Complete every field to create your account.', 'error');
+            return;
+          }
+          if (password.length < 8) {
+            setSignupStatus('Your password must contain at least 8 characters.', 'error');
+            return;
+          }
+          if (password !== confirmPassword) {
+            setSignupStatus('The passwords do not match.', 'error');
+            return;
+          }
+
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+          }
+          setSignupStatus('Creating your learner account...', 'info');
+
+          const result = await createLearnerAccount(fullName, email, password);
+
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+          }
+
+          if (!result.ok) {
+            setSignupStatus(result.message || 'Account creation failed. Please try again.', 'error');
+            return;
+          }
+
+          if (result.confirmationRequired) {
+            signupForm.reset();
+            setSignupStatus(result.message, 'success');
+            return;
+          }
+
+          signupForm.reset();
+          setSignupStatus('Account created. Opening the learner portal...', 'success');
+          await activatePortalForProfile(result.profile);
+        });
+      }
     }
 
     function initializeLogout() {
