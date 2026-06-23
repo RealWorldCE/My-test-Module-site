@@ -2549,6 +2549,194 @@
       text-align: center;
     }
 
+
+
+    /* =========================================================
+       Selective Learner Module Access
+       Self-registered learners see only manager-assigned modules.
+       ========================================================= */
+    .module-access-notice {
+      border: 1px solid rgba(147,197,253,.65);
+      background: linear-gradient(135deg, rgba(239,246,255,.96), rgba(255,255,255,.94));
+      color: #1e3a8a;
+      border-radius: 1.25rem;
+      padding: 1rem 1.1rem;
+      font-size: .9rem;
+      font-weight: 750;
+      line-height: 1.5;
+      box-shadow: 0 14px 34px rgba(37,99,235,.08);
+    }
+    .module-access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: .75rem;
+    }
+    .module-access-option {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      min-width: 0;
+      border: 1px solid rgba(226,232,240,.95);
+      background: rgba(255,255,255,.92);
+      border-radius: 1rem;
+      padding: .85rem;
+      cursor: pointer;
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .module-access-option:hover {
+      border-color: rgba(96,165,250,.65);
+      box-shadow: 0 12px 26px rgba(37,99,235,.08);
+      transform: translateY(-1px);
+    }
+    .module-access-option input {
+      width: 1.15rem;
+      height: 1.15rem;
+      min-height: 0;
+      margin-top: .1rem;
+      accent-color: #2563eb;
+      flex: 0 0 auto;
+    }
+    .module-access-option-copy {
+      min-width: 0;
+    }
+    .module-access-option-title {
+      color: #0f2438;
+      font-size: .9rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+    .module-access-option-meta {
+      margin-top: .25rem;
+      color: #64748b;
+      font-size: .72rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .module-access-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .65rem;
+    }
+    .module-access-toolbar button {
+      min-height: 2.55rem;
+    }
+    [data-rwce-assignment-hidden="true"] {
+      display: none !important;
+    }
+    @media (max-width: 640px) {
+      .module-access-grid { grid-template-columns: minmax(0, 1fr); }
+      .module-access-toolbar { align-items: stretch; flex-direction: column; }
+      .module-access-toolbar button { width: 100%; }
+    }
+
+
+
+    /* =========================================================
+       Learner Waiting Screen + Webinar Video Portal
+       ========================================================= */
+    .rwce-account-destination {
+      min-height: calc(100svh - 92px);
+      background:
+        radial-gradient(760px 430px at 10% 0%, rgba(142,197,234,.22), transparent 62%),
+        linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+    }
+
+    .learner-waiting-card {
+      width: min(44rem, 100%);
+      border-radius: 2rem;
+      border: 1px solid rgba(255,255,255,.82);
+      background: linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,255,255,.76));
+      padding: clamp(1.4rem, 4vw, 2.5rem);
+      box-shadow: 0 28px 80px rgba(15,23,42,.13);
+      text-align: center;
+    }
+
+    .learner-waiting-icon {
+      display: inline-flex;
+      width: 4.75rem;
+      height: 4.75rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1.6rem;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(37,99,235,.25);
+    }
+
+    .webinar-hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2rem;
+      background:
+        radial-gradient(620px 340px at 85% 10%, rgba(103,232,249,.30), transparent 62%),
+        linear-gradient(125deg, #07111d 0%, #112b45 55%, #176b9f 100%);
+      box-shadow: 0 28px 80px rgba(2,8,23,.20);
+    }
+
+    .webinar-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
+
+    .webinar-card {
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(226,232,240,.95);
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 18px 48px rgba(15,23,42,.09);
+    }
+
+    .webinar-media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: linear-gradient(135deg, #07111d, #173d60);
+    }
+
+    .webinar-media video,
+    .webinar-media iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .webinar-card-body { padding: 1.1rem; }
+    .webinar-meta-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .8rem; }
+    .webinar-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(191,219,254,.72);
+      background: rgba(239,246,255,.92);
+      color: #1d4ed8;
+      padding: .38rem .6rem;
+      font-size: .7rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .webinar-empty-state {
+      grid-column: 1 / -1;
+      border-radius: 1.5rem;
+      border: 1px dashed rgba(148,163,184,.65);
+      background: rgba(255,255,255,.78);
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+      color: #475569;
+    }
+
+    @media (max-width: 820px) {
+      .webinar-grid { grid-template-columns: minmax(0, 1fr); }
+      .webinar-hero { border-radius: 1.4rem; }
+    }
+
 </style>
 </head>
 <body class="text-slate-800 min-h-screen rwce-auth-locked">
@@ -2606,6 +2794,13 @@
 <input autocomplete="email" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupEmail" placeholder="Email address" required type="email"/>
 </label>
 <label class="block">
+<span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Account Type</span>
+<select class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupAccountType" required>
+<option value="learner">Learner — assigned learning modules only</option>
+<option value="webinar">Webinar — webinar video library only</option>
+</select>
+</label>
+<label class="block">
 <span class="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-blue-100/80">Create Password</span>
 <input autocomplete="new-password" class="h-12 w-full rounded-2xl border border-white/15 bg-white/95 px-4 text-base font-bold text-medicalBlue outline-none focus:border-skyBrand focus:ring-4 focus:ring-skyBrand/20" id="signupPassword" minlength="8" placeholder="At least 8 characters" required type="password"/>
 </label>
@@ -2616,9 +2811,9 @@
 <div aria-live="polite" class="hidden rounded-2xl px-4 py-3 text-sm font-bold" id="signupStatus"></div>
 <button class="auth-primary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" type="submit">
 <span class="material-symbols-outlined text-[20px]">person_add</span>
-        Create Learner Account
+        <span id="signupSubmitLabel">Create Learner Account</span>
       </button>
-<p class="auth-account-note">New accounts receive learner access only. Your email may need to be verified before you can sign in.</p>
+<p class="auth-account-note" id="signupAccountNote">Learner accounts start with a blank learning screen until a manager assigns modules. Your email may need to be verified before you can sign in.</p>
 </form>
 </div>
 </section>
@@ -2638,7 +2833,7 @@
 <span>Logged in: <span id="loggedInUser">User</span></span>
 <span class="rwce-role-pill" data-role-label-wrap>Role: <span id="loggedInRole">Locked</span></span>
 <span aria-hidden="true" class="user-divider"></span>
-<span><span id="userViewedModuleCount">0</span> modules viewed</span>
+<span><span id="userViewedModuleCount">0</span> <span id="userViewedContentLabel">modules viewed</span></span>
 </div>
 <button aria-label="Log out of the portal" class="rwce-logout-button" data-logout-button type="button">
 <span aria-hidden="true" class="material-symbols-outlined">logout</span>
@@ -2737,6 +2932,9 @@
 <option>Learning Formats</option>
 </select>
 </div>
+</div>
+<div class="module-access-notice hidden" id="moduleAccessNotice" role="status" aria-live="polite">
+  <div class="flex items-start gap-3"><span class="material-symbols-outlined text-blue-600">lock_person</span><div><div class="font-black">Your learning access is managed by Real World CE.</div><div class="mt-1" id="moduleAccessNoticeText">No modules have been assigned to your account yet. Contact your manager or administrator.</div></div></div>
 </div>
 <div class="grid sm:grid-cols-2 gap-5" id="moduleGrid">
 <article class="module-card glass rounded-3xl shadow-soft border border-slate-200 marketing-card" data-area="hematology/oncology / urology" data-featured="true" data-format="patients" data-format-category="patients" data-format-label="real world patient" data-kind="real world patient" data-new="false" data-owner="real world ce" data-repository="RealWorldCE/ProstatePARPi" data-tabs="hematology-oncology,urology" data-title="prostate cancer parp inhibitor realworldce/prostateparpi prostate cancer parp inhibitor parpi hematology oncology urology real world patient">
@@ -3008,6 +3206,41 @@
 
 </main>
 </div>
+
+<section class="rwce-account-destination hidden px-4 sm:px-6 py-10 sm:py-16" id="learnerWaitingPage" style="display:none;" aria-hidden="true">
+  <div class="mx-auto flex min-h-[65svh] max-w-7xl items-center justify-center">
+    <div class="learner-waiting-card">
+      <span class="learner-waiting-icon"><span class="material-symbols-outlined text-[38px]">lock_person</span></span>
+      <div class="mt-6 text-xs font-black uppercase tracking-[0.18em] text-blue-700">Learner Account</div>
+      <h1 class="mt-3 text-2xl sm:text-4xl font-black tracking-tight text-medicalBlue">Your learning screen is ready.</h1>
+      <p class="mx-auto mt-4 max-w-xl text-sm sm:text-base font-semibold leading-relaxed text-slate-500">No learning modules have been assigned to your account yet. This screen will automatically show only the modules selected for you after a manager or administrator assigns them.</p>
+      <div class="mt-6 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-bold text-blue-900">Contact your Real World CE manager or administrator for module access.</div>
+      <button class="mt-6 inline-flex min-h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 font-black text-slate-700 shadow-soft hover:border-blue-300 hover:text-blue-700" id="refreshLearnerAccessBtn" type="button"><span class="material-symbols-outlined">refresh</span>Check for Assigned Modules</button>
+    </div>
+  </div>
+</section>
+
+<section class="rwce-account-destination hidden" id="webinarPortalPage" style="display:none;" aria-hidden="true">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-12">
+    <section class="webinar-hero px-5 py-8 sm:px-9 sm:py-10 text-white">
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em]"><span class="material-symbols-outlined text-[17px]">live_tv</span>Webinar Video Library</div>
+        <h1 class="mt-4 text-3xl sm:text-5xl font-black tracking-tight leading-tight">Real World CE Webinars</h1>
+        <p class="mt-4 max-w-2xl text-sm sm:text-base font-semibold leading-relaxed text-blue-100/85">Watch the webinar videos available to your webinar account. Learning modules and manager tools are not shown in this area.</p>
+      </div>
+    </section>
+
+    <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div><div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Available Videos</div><h2 class="mt-1 text-2xl sm:text-3xl font-black tracking-tight text-medicalBlue">Webinar library</h2></div>
+      <button class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700 shadow-soft hover:border-blue-300 hover:text-blue-700" id="refreshWebinarsBtn" type="button"><span class="material-symbols-outlined text-[18px]">refresh</span>Refresh Videos</button>
+    </div>
+    <div class="mt-3 hidden rounded-2xl px-4 py-3 text-sm font-bold" id="webinarStatus"></div>
+    <div class="webinar-grid mt-5" id="webinarGrid">
+      <div class="webinar-empty-state"><span class="material-symbols-outlined text-[38px] text-blue-600">video_library</span><div class="mt-3 text-lg font-black text-medicalBlue">Loading webinar videos…</div></div>
+    </div>
+  </div>
+</section>
+
 <section class="rwce-admin-portal hidden min-h-screen bg-slate-50 px-3 sm:px-6 py-6 sm:py-10" id="managerPortal" aria-label="Manager and administrator portal" style="display:none;" aria-hidden="true">
   <div class="admin-dashboard-card p-5 sm:p-6">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -3044,6 +3277,7 @@
         <button class="admin-tab-button" type="button" data-admin-tab="reports">User Reports</button>
         <button class="admin-tab-button" type="button" data-admin-tab="analytics">Module Analytics</button>
         <button class="admin-tab-button" type="button" data-admin-tab="users">Add Users</button>
+        <button class="admin-tab-button" type="button" data-admin-tab="access">Module Access</button>
       </div>
     </div>
 
@@ -3077,8 +3311,8 @@
         <div class="admin-status-message hidden mb-4" id="deleteUserStatus"></div>
         <div class="admin-table-wrap">
           <table class="admin-table">
-            <thead><tr><th>Learner/User</th><th>Email</th><th>Role</th><th>Logins</th><th>Last Login</th><th>Sessions</th><th>Completions</th><th>Credits</th><th>Actions</th></tr></thead>
-            <tbody id="userReportRows"><tr><td colspan="9">No users loaded yet.</td></tr></tbody>
+            <thead><tr><th>Learner/User</th><th>Email</th><th>Account Type</th><th>Role</th><th>Logins</th><th>Last Login</th><th>Sessions</th><th>Completions</th><th>Credits</th><th>Actions</th></tr></thead>
+            <tbody id="userReportRows"><tr><td colspan="10">No users loaded yet.</td></tr></tbody>
           </table>
         </div>
       </section>
@@ -3109,9 +3343,33 @@
           </form>
           <div class="admin-table-wrap">
             <table class="admin-table">
-              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th></tr></thead>
-              <tbody id="userManagementRows"><tr><td colspan="4">No users loaded yet.</td></tr></tbody>
+              <thead><tr><th>Name</th><th>Email</th><th>Account Type</th><th>Role</th><th>Created</th></tr></thead>
+              <tbody id="userManagementRows"><tr><td colspan="5">No users loaded yet.</td></tr></tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-view-panel" id="adminViewAccess">
+        <div class="grid lg:grid-cols-[.72fr_1.28fr] gap-5">
+          <div class="rounded-3xl border border-slate-200 bg-white/85 p-5">
+            <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Learner Access</div>
+            <h3 class="mt-2 text-xl font-black text-medicalBlue">Choose a learner</h3>
+            <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Self-registered learner accounts start with no modules. Webinar accounts use the separate webinar video library and do not appear here.</p>
+            <label class="admin-form-field mt-4 block"><span>Learner</span><select id="moduleAccessUserSelect"><option value="">Select a learner</option></select></label>
+            <div class="mt-4 rounded-2xl bg-blue-50 p-4 text-sm font-bold leading-relaxed text-blue-900" id="moduleAccessUserSummary">Select a learner to review their module access.</div>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white/85 p-5">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div><div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Assigned Modules</div><h3 class="mt-2 text-xl font-black text-medicalBlue">Select visible modules</h3></div>
+              <div class="module-access-toolbar">
+                <button class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-slate-700" id="selectAllModulesBtn" type="button">Select All</button>
+                <button class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-slate-700" id="clearAllModulesBtn" type="button">Clear All</button>
+              </div>
+            </div>
+            <div class="module-access-grid mt-4" id="moduleAccessChecklist"><div class="text-sm font-semibold text-slate-500">Choose a learner first.</div></div>
+            <button class="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 font-black text-white shadow-glow transition hover:bg-blue-700" id="saveModuleAccessBtn" type="button"><span class="material-symbols-outlined text-[20px]">save</span>Save Module Access</button>
+            <div class="admin-status-message hidden mt-4" id="moduleAccessStatus"></div>
           </div>
         </div>
       </section>
@@ -3231,13 +3489,20 @@
       const portalShell = document.getElementById('portalShell');
       const moduleViewer = document.getElementById('moduleViewer');
       const moduleFrame = document.getElementById('moduleFrame');
+      const learnerWaitingPage = document.getElementById('learnerWaitingPage');
+      const webinarPortalPage = document.getElementById('webinarPortalPage');
 
       document.body.classList.add('rwce-auth-locked');
       rwceAuthenticatedProfile = null;
+      rwceAllowedModuleKeys = new Set();
+      rwceModuleAccessMode = 'all';
+      applyModuleAssignmentsToPortal();
       applyRolePermissions('locked');
 
       if (moduleFrame) moduleFrame.src = 'about:blank';
       setPanelVisibility(moduleViewer, false);
+      setPanelVisibility(learnerWaitingPage, false);
+      setPanelVisibility(webinarPortalPage, false);
       setPanelVisibility(portalShell, false);
       setPanelVisibility(loginScreen, true, 'flex');
     }
@@ -3265,6 +3530,12 @@
       initializeLogout();
       initializeModulePreviews();
       initializeAdminPortals();
+      document.getElementById('refreshWebinarsBtn')?.addEventListener('click', () => loadWebinarLibrary(true));
+      document.getElementById('refreshLearnerAccessBtn')?.addEventListener('click', async () => {
+        if (!rwceAuthenticatedProfile) return;
+        const result = await loadModuleAssignmentsForProfile(rwceAuthenticatedProfile);
+        showAccountDestination(rwceAuthenticatedProfile.account_type, result?.count || 0);
+      });
     });
 
     const searchInput = document.getElementById('searchInput');
@@ -3307,7 +3578,7 @@
           card.dataset.repository || '',
           card.textContent.toLowerCase()
         ].join(' ').toLowerCase();
-        const show = matchesFilter(card, activeFilter) && haystack.includes(term);
+        const show = card.dataset.rwceAssignmentVisible !== 'false' && matchesFilter(card, activeFilter) && haystack.includes(term);
         card.style.display = show ? '' : 'none';
         if (show) visibleCount += 1;
       });
@@ -3388,9 +3659,12 @@
       const roleNode = document.getElementById('loggedInRole');
       const username = activeUserName();
       const role = normalizePortalRole(localStorage.getItem('rwce_active_user_role') || rwceAuthenticatedProfile?.role || 'learner');
+      const accountType = normalizeAccountType(localStorage.getItem('rwce_active_account_type') || rwceAuthenticatedProfile?.account_type, role);
+      const contentLabel = document.getElementById('userViewedContentLabel');
       if (userNode) userNode.textContent = username;
-      if (roleNode) roleNode.textContent = role.charAt(0).toUpperCase() + role.slice(1);
-      if (countNode) countNode.textContent = readUserViewedModules(username).length;
+      if (roleNode) roleNode.textContent = accountType === 'webinar' ? 'Webinar' : role.charAt(0).toUpperCase() + role.slice(1);
+      if (countNode) countNode.textContent = accountType === 'webinar' ? rwceWebinarCount : readUserViewedModules(username).length;
+      if (contentLabel) contentLabel.textContent = accountType === 'webinar' ? 'videos available' : 'modules viewed';
     }
 
     function refreshViewDisplays() {
@@ -3492,7 +3766,149 @@
     }
 
 
-    const RWCE_PROFILE_SELECT = 'id, organization_id, full_name, email, role, login_count, last_login_at, created_at, updated_at';
+    const RWCE_PROFILE_SELECT = 'id, organization_id, full_name, email, role, account_type, module_access_mode, registration_source, login_count, last_login_at, created_at, updated_at';
+
+    let rwceAllowedModuleKeys = new Set();
+    let rwceModuleAccessMode = 'all';
+    let rwceWebinarCount = 0;
+
+    function normalizeModuleKey(value) {
+      let raw = String(value || '').trim();
+      if (!raw) return '';
+      try {
+        if (/^https?:\/\//i.test(raw)) {
+          const url = new URL(raw);
+          const host = url.hostname.toLowerCase();
+          const slug = url.pathname.replace(/^\/+|\/+$/g, '');
+          if (host === 'realworldce.github.io' && slug) raw = `RealWorldCE/${slug}`;
+          else raw = `${host}/${slug}`;
+        }
+      } catch (error) {
+        // Keep the original value when it is not a URL.
+      }
+      return raw.replace(/^\/+|\/+$/g, '').replace(/\s+/g, '').toLowerCase();
+    }
+
+    function getCardModuleKey(card) {
+      if (!card) return '';
+      const link = card.querySelector('a.tracked-link[href]');
+      return normalizeModuleKey(card.dataset.moduleKey || card.dataset.repository || link?.dataset.viewKey || link?.href || '');
+    }
+
+    function getLinkModuleKey(link) {
+      if (!link) return '';
+      const card = link.closest('.module-card');
+      return getCardModuleKey(card) || normalizeModuleKey(link.dataset.moduleKey || link.dataset.viewKey || link.href || '');
+    }
+
+    function normalizeAccountType(value, role = 'learner') {
+      const normalizedRole = normalizePortalRole(role);
+      if (['admin', 'manager'].includes(normalizedRole)) return 'learning';
+      const type = String(value || '').trim().toLowerCase().replace(/[\s_-]+/g, '');
+      if (['webinar', 'webinars', 'webinaronly', 'video', 'videos'].includes(type)) return 'webinar';
+      return 'learner';
+    }
+
+    function profileUsesAssignedModules(profile) {
+      const role = normalizePortalRole(profile?.role);
+      const accountType = normalizeAccountType(profile?.account_type, role);
+      if (role !== 'learner' || accountType !== 'learner') return false;
+      return String(profile?.module_access_mode || '').trim().toLowerCase() === 'assigned';
+    }
+
+    function learnerCanViewModule(moduleKey) {
+      if (rwceModuleAccessMode !== 'assigned') return true;
+      const key = normalizeModuleKey(moduleKey);
+      return Boolean(key && rwceAllowedModuleKeys.has(key));
+    }
+
+    function setAssignmentElementVisibility(node, visible) {
+      if (!node) return;
+      node.dataset.rwceAssignmentHidden = visible ? 'false' : 'true';
+      node.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    }
+
+    function applyModuleAssignmentsToPortal() {
+      const assignedMode = rwceModuleAccessMode === 'assigned';
+      const cards = Array.from(document.querySelectorAll('#moduleGrid .module-card'));
+      cards.forEach(card => {
+        const visible = !assignedMode || learnerCanViewModule(getCardModuleKey(card));
+        card.dataset.rwceAssignmentVisible = visible ? 'true' : 'false';
+        setAssignmentElementVisibility(card, visible);
+      });
+
+      document.querySelectorAll('a.tracked-link[href]').forEach(link => {
+        const key = getLinkModuleKey(link);
+        const visible = !assignedMode || learnerCanViewModule(key);
+        if (link.closest('.module-card')) return;
+        const container = link.closest('.quick-launch-item') || link.closest('#featured .rounded-2xl') || link;
+        setAssignmentElementVisibility(container, visible);
+      });
+
+      const notice = document.getElementById('moduleAccessNotice');
+      const noticeText = document.getElementById('moduleAccessNoticeText');
+      const visibleCards = cards.filter(card => card.dataset.rwceAssignmentVisible !== 'false').length;
+      if (notice) notice.classList.toggle('hidden', !assignedMode || visibleCards > 0);
+      if (noticeText && assignedMode && visibleCards === 0) {
+        noticeText.textContent = 'No modules have been assigned to your account yet. Contact your manager or administrator.';
+      }
+
+      const featured = document.getElementById('featured');
+      if (featured && assignedMode) {
+        const visibleFeaturedLinks = Array.from(featured.querySelectorAll('a.tracked-link[href]')).some(link => {
+          const container = link.closest('.rounded-2xl') || link;
+          return container.dataset.rwceAssignmentHidden !== 'true';
+        });
+        featured.classList.toggle('hidden', !visibleFeaturedLinks);
+      } else if (featured) {
+        featured.classList.remove('hidden');
+      }
+
+      const collections = document.getElementById('collections');
+      if (collections && assignedMode) {
+        const visibleQuickLinks = Array.from(collections.querySelectorAll('a.tracked-link[href]')).some(link => {
+          const container = link.closest('.quick-launch-item') || link;
+          return container.dataset.rwceAssignmentHidden !== 'true';
+        });
+        collections.classList.toggle('hidden', !visibleQuickLinks);
+      } else if (collections) {
+        collections.classList.remove('hidden');
+      }
+
+      if (typeof applyFilters === 'function') applyFilters();
+    }
+
+    async function loadModuleAssignmentsForProfile(profile) {
+      rwceAllowedModuleKeys = new Set();
+      rwceModuleAccessMode = profileUsesAssignedModules(profile) ? 'assigned' : 'all';
+
+      if (rwceModuleAccessMode !== 'assigned') {
+        applyModuleAssignmentsToPortal();
+        return { ok: true, count: 0 };
+      }
+
+      if (!rwceSupabaseReady || !rwceSupabase || !profile?.id) {
+        applyModuleAssignmentsToPortal();
+        return { ok: false, count: 0 };
+      }
+
+      const { data, error } = await rwceSupabase
+        .from('user_module_assignments')
+        .select('module_key')
+        .eq('user_id', profile.id);
+
+      if (error) {
+        console.warn('Module assignments could not be loaded:', error.message);
+        applyModuleAssignmentsToPortal();
+        const noticeText = document.getElementById('moduleAccessNoticeText');
+        if (noticeText) noticeText.textContent = 'Your module access could not be loaded. Please contact your manager or administrator.';
+        return { ok: false, count: 0, error: error.message };
+      }
+
+      rwceAllowedModuleKeys = new Set((data || []).map(row => normalizeModuleKey(row.module_key)).filter(Boolean));
+      applyModuleAssignmentsToPortal();
+      return { ok: true, count: rwceAllowedModuleKeys.size };
+    }
 
     function normalizePortalRole(role) {
       const value = String(role || 'learner').trim().toLowerCase().replace(/[_-]+/g, ' ');
@@ -3552,7 +3968,8 @@
 
       // Show the role in the header so you can immediately verify that permissions are being read.
       const roleNode = document.getElementById('loggedInRole');
-      if (roleNode) roleNode.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+      const accountType = normalizeAccountType(profile?.account_type, role);
+      if (roleNode) roleNode.textContent = accountType === 'webinar' ? 'Webinar' : role.charAt(0).toUpperCase() + role.slice(1);
 
       // Generic permission attributes. These support existing and future admin/manager controls.
       document.querySelectorAll('[data-role-access]').forEach(node => {
@@ -3637,7 +4054,10 @@
         organization_id: metadata.organization_id || null,
         full_name: metadata.full_name || metadata.name || (user?.email ? user.email.split('@')[0] : 'User'),
         email: user?.email || '',
-        role: normalizePortalRole(metadata.role || 'learner')
+        role: normalizePortalRole(metadata.role || 'learner'),
+        account_type: normalizeAccountType(metadata.account_type || 'learner', metadata.role || 'learner'),
+        module_access_mode: metadata.module_access_mode || (normalizeAccountType(metadata.account_type || 'learner', metadata.role || 'learner') === 'webinar' ? 'none' : 'assigned'),
+        registration_source: metadata.registration_source || 'self_signup'
       };
     }
 
@@ -3695,43 +4115,51 @@
       }, 50);
     }
 
-    async function ensureLearnerProfileForNewAccount(user, fullName) {
+    async function ensureSelfSignupProfile(user, fullName, accountType) {
       if (!user) return { profile: null, error: 'Supabase did not return the new user.' };
+      const normalizedType = normalizeAccountType(accountType, 'learner');
 
-      // Give a database trigger a moment to create the profile first.
+      // Give the database trigger a moment to create the profile first.
       for (let attempt = 0; attempt < 3; attempt += 1) {
         const existing = await fetchDatabaseProfileForAuthUser(user);
         if (existing.profile) return existing;
         await new Promise(resolve => setTimeout(resolve, 350));
       }
 
-      // Safe fallback for projects that allow users to insert only their own learner profile.
-      const learnerProfile = {
+      // Safe fallback for projects that allow users to insert only their own profile.
+      const selfSignupProfile = {
         id: user.id,
         full_name: fullName,
         email: user.email || '',
-        role: 'learner'
+        role: 'learner',
+        account_type: normalizedType,
+        module_access_mode: normalizedType === 'webinar' ? 'none' : 'assigned',
+        registration_source: 'self_signup'
       };
-      const { error: insertError } = await rwceSupabase.from('profiles').insert(learnerProfile);
+      const { error: insertError } = await rwceSupabase.from('profiles').insert(selfSignupProfile);
       if (insertError && insertError.code !== '23505') {
-        return { profile: null, error: insertError.message || 'The learner profile could not be created.' };
+        return { profile: null, error: insertError.message || 'The account profile could not be created.' };
       }
 
       return fetchDatabaseProfileForAuthUser(user);
     }
 
-    async function createLearnerAccount(fullName, email, password) {
+    async function createSelfServiceAccount(fullName, email, password, accountType) {
       if (!rwceSupabaseReady || !rwceSupabase) {
         return { ok: false, profile: null, confirmationRequired: false, message: 'Account creation is not configured. Please contact the administrator.' };
       }
 
+      const normalizedType = normalizeAccountType(accountType, 'learner');
       const { data, error } = await rwceSupabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: fullName,
-            role: 'learner'
+            role: 'learner',
+            account_type: normalizedType,
+            module_access_mode: normalizedType === 'webinar' ? 'none' : 'assigned',
+            registration_source: 'self_signup'
           }
         }
       });
@@ -3757,14 +4185,14 @@
         };
       }
 
-      const { profile, error: profileError } = await ensureLearnerProfileForNewAccount(data.user, fullName);
+      const { profile, error: profileError } = await ensureSelfSignupProfile(data.user, fullName, normalizedType);
       if (profileError || !profile) {
         await rwceSupabase.auth.signOut();
         return {
           ok: false,
           profile: null,
           confirmationRequired: false,
-          message: 'The login account was created, but the learner profile could not be added. Run the included Supabase signup setup SQL, then try signing in.'
+          message: 'The login account was created, but its portal profile could not be added. Run the included Supabase account-routing SQL, then try signing in.'
         };
       }
 
@@ -3773,11 +4201,141 @@
         profile: {
           ...buildProfileFromAuthUser(data.user),
           ...profile,
-          role: 'learner'
+          role: 'learner',
+          account_type: normalizedType
         },
         confirmationRequired: false,
         message: ''
       };
+    }
+
+    function safeMediaUrl(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      try {
+        const parsed = new URL(raw, window.location.href);
+        if (!['http:', 'https:'].includes(parsed.protocol)) return '';
+        return parsed.href;
+      } catch (error) {
+        return '';
+      }
+    }
+
+    function webinarEmbedUrl(value) {
+      const url = safeMediaUrl(value);
+      if (!url) return '';
+      try {
+        const parsed = new URL(url);
+        const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+        if (host === 'youtu.be') {
+          const id = parsed.pathname.replace(/^\//, '').split('/')[0];
+          return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : '';
+        }
+        if (host.endsWith('youtube.com')) {
+          const id = parsed.searchParams.get('v') || parsed.pathname.split('/').filter(Boolean).pop();
+          return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : '';
+        }
+        if (host === 'vimeo.com' || host.endsWith('.vimeo.com')) {
+          const id = parsed.pathname.split('/').filter(Boolean).find(part => /^\d+$/.test(part));
+          return id ? `https://player.vimeo.com/video/${encodeURIComponent(id)}` : '';
+        }
+      } catch (error) {
+        return '';
+      }
+      return '';
+    }
+
+    function formatWebinarDate(value) {
+      if (!value) return '';
+      try {
+        return new Date(`${value}T12:00:00`).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      } catch (error) {
+        return String(value);
+      }
+    }
+
+    function renderWebinars(webinars = []) {
+      const grid = document.getElementById('webinarGrid');
+      rwceWebinarCount = Array.isArray(webinars) ? webinars.length : 0;
+      refreshUserStatus();
+      if (!grid) return;
+      if (!webinars.length) {
+        grid.innerHTML = '<div class="webinar-empty-state"><span class="material-symbols-outlined text-[38px] text-blue-600">video_library</span><div class="mt-3 text-lg font-black text-medicalBlue">No webinar videos are available yet.</div><p class="mx-auto mt-2 max-w-xl text-sm font-semibold leading-relaxed">Published webinar records from the Supabase <span class="font-black">webinars</span> table will appear here.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = webinars.map(item => {
+        const title = safeText(item.title || 'Real World CE Webinar');
+        const description = safeText(item.description || '');
+        const presenter = safeText(item.presenter || '');
+        const dateLabel = safeText(formatWebinarDate(item.event_date));
+        const credit = Number(item.credit_hours || 0);
+        const videoUrl = safeMediaUrl(item.video_url);
+        const posterUrl = safeMediaUrl(item.poster_url);
+        const embedUrl = webinarEmbedUrl(videoUrl);
+        const media = embedUrl
+          ? `<iframe src="${safeText(embedUrl)}" title="${title}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+          : videoUrl
+            ? `<video controls preload="metadata" ${posterUrl ? `poster="${safeText(posterUrl)}"` : ''}><source src="${safeText(videoUrl)}"/>Your browser does not support this webinar video.</video>`
+            : '<div class="flex h-full items-center justify-center px-4 text-center text-sm font-bold text-blue-100"><span><span class="material-symbols-outlined block text-[38px]">videocam_off</span>Video URL unavailable</span></div>';
+        const pills = [
+          presenter ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">person</span>${presenter}</span>` : '',
+          dateLabel ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">calendar_month</span>${dateLabel}</span>` : '',
+          credit > 0 ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">workspace_premium</span>${credit} credit hour${credit === 1 ? '' : 's'}</span>` : ''
+        ].filter(Boolean).join('');
+        return `<article class="webinar-card"><div class="webinar-media">${media}</div><div class="webinar-card-body"><div class="text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">Real World CE Webinar</div><h3 class="mt-2 text-xl font-black tracking-tight text-medicalBlue">${title}</h3>${description ? `<p class="mt-3 text-sm font-semibold leading-relaxed text-slate-500">${description}</p>` : ''}${pills ? `<div class="webinar-meta-row">${pills}</div>` : ''}</div></article>`;
+      }).join('');
+    }
+
+    function setWebinarStatus(message = '', type = '') {
+      const node = document.getElementById('webinarStatus');
+      if (!node) return;
+      node.textContent = message;
+      node.classList.remove('hidden', 'border-red-200', 'bg-red-50', 'text-red-700', 'border-blue-200', 'bg-blue-50', 'text-blue-900');
+      if (!message) { node.classList.add('hidden'); return; }
+      if (type === 'error') node.classList.add('border-red-200', 'bg-red-50', 'text-red-700');
+      else node.classList.add('border-blue-200', 'bg-blue-50', 'text-blue-900');
+    }
+
+    async function loadWebinarLibrary(force = false) {
+      const grid = document.getElementById('webinarGrid');
+      if (!grid) return { ok: false, count: 0 };
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        renderWebinars([]);
+        setWebinarStatus('The webinar library is not connected to Supabase.', 'error');
+        return { ok: false, count: 0 };
+      }
+      if (force) grid.innerHTML = '<div class="webinar-empty-state"><span class="material-symbols-outlined text-[38px] text-blue-600 animate-pulse">video_library</span><div class="mt-3 text-lg font-black text-medicalBlue">Refreshing webinar videos…</div></div>';
+      const { data, error } = await rwceSupabase
+        .from('webinars')
+        .select('id, title, description, presenter, event_date, credit_hours, video_url, poster_url, status, sort_order, created_at')
+        .eq('status', 'published')
+        .order('sort_order', { ascending: true })
+        .order('event_date', { ascending: false, nullsFirst: false });
+      if (error) {
+        console.warn('Webinars could not be loaded:', error.message);
+        renderWebinars([]);
+        setWebinarStatus('Webinar videos could not be loaded. Run the included Supabase SQL and check the webinars table.', 'error');
+        return { ok: false, count: 0, error: error.message };
+      }
+      renderWebinars(data || []);
+      setWebinarStatus(data?.length ? `${data.length} webinar video${data.length === 1 ? '' : 's'} available.` : '', 'info');
+      return { ok: true, count: data?.length || 0 };
+    }
+
+    function showAccountDestination(accountType, assignmentCount = 0) {
+      const mainPortalPage = document.getElementById('mainPortalPage');
+      const learnerWaitingPage = document.getElementById('learnerWaitingPage');
+      const webinarPortalPage = document.getElementById('webinarPortalPage');
+      const managerPortal = document.getElementById('managerPortal');
+      const role = normalizePortalRole(rwceAuthenticatedProfile?.role || 'learner');
+      const type = normalizeAccountType(accountType, role);
+      const assignedLearnerWaiting = role === 'learner' && type === 'learner' && rwceModuleAccessMode === 'assigned' && assignmentCount === 0;
+
+      setPanelVisibility(managerPortal, false);
+      setPanelVisibility(mainPortalPage, type !== 'webinar' && !assignedLearnerWaiting, 'block');
+      setPanelVisibility(learnerWaitingPage, assignedLearnerWaiting, 'block');
+      setPanelVisibility(webinarPortalPage, type === 'webinar', 'block');
     }
 
     async function validateDatabaseLogin(email, password) {
@@ -3830,22 +4388,23 @@
       const errorBox = document.getElementById('loginError');
       const displayName = profile?.full_name || profile?.name || profile?.email || 'User';
       const userRole = normalizePortalRole(profile?.role);
+      const accountType = normalizeAccountType(profile?.account_type, userRole);
 
-      rwceAuthenticatedProfile = { ...profile, role: userRole };
+      rwceAuthenticatedProfile = { ...profile, role: userRole, account_type: accountType };
 
       localStorage.setItem('rwce_active_user', displayName);
       localStorage.setItem('rwce_active_user_id', profile?.id || '');
       localStorage.setItem('rwce_active_user_email', profile?.email || '');
       localStorage.setItem('rwce_active_user_role', userRole);
+      localStorage.setItem('rwce_active_account_type', accountType);
       localStorage.setItem('rwce_active_organization_id', profile?.organization_id || '');
       localStorage.setItem('rwce_database_login_active', 'true');
 
       applyRolePermissions(userRole, rwceAuthenticatedProfile);
+      const assignmentResult = await loadModuleAssignmentsForProfile(rwceAuthenticatedProfile);
       initializeAdminPortals();
-      const mainPortalPage = document.getElementById('mainPortalPage');
-      const managerPortal = document.getElementById('managerPortal');
-      setPanelVisibility(mainPortalPage, true, 'block');
-      setPanelVisibility(managerPortal, false);
+      showAccountDestination(accountType, assignmentResult?.count || 0);
+      if (accountType === 'webinar') await loadWebinarLibrary(true);
 
       if (errorBox) errorBox.classList.add('hidden');
       document.body.classList.remove('rwce-auth-locked');
@@ -3943,12 +4502,26 @@
         button.addEventListener('click', () => setAuthenticationMode(button.dataset.authMode || 'login'));
       });
 
+      const signupAccountType = document.getElementById('signupAccountType');
+      const updateSignupAccountCopy = () => {
+        const type = normalizeAccountType(signupAccountType?.value || 'learner', 'learner');
+        const submitLabel = document.getElementById('signupSubmitLabel');
+        const note = document.getElementById('signupAccountNote');
+        if (submitLabel) submitLabel.textContent = type === 'webinar' ? 'Create Webinar Account' : 'Create Learner Account';
+        if (note) note.textContent = type === 'webinar'
+          ? 'Webinar accounts open a webinar-only video library and do not display learning modules.'
+          : 'Learner accounts start with a blank learning screen until a manager assigns modules.';
+      };
+      signupAccountType?.addEventListener('change', updateSignupAccountCopy);
+      updateSignupAccountCopy();
+
       const signupForm = document.getElementById('createAccountForm');
       if (signupForm) {
         signupForm.addEventListener('submit', async event => {
           event.preventDefault();
           const fullName = document.getElementById('signupFullName')?.value.trim() || '';
           const email = document.getElementById('signupEmail')?.value.trim().toLowerCase() || '';
+          const accountType = normalizeAccountType(document.getElementById('signupAccountType')?.value || 'learner', 'learner');
           const password = document.getElementById('signupPassword')?.value || '';
           const confirmPassword = document.getElementById('signupPasswordConfirm')?.value || '';
           const submitButton = signupForm.querySelector('button[type="submit"]');
@@ -3970,9 +4543,9 @@
             submitButton.disabled = true;
             submitButton.classList.add('opacity-70', 'cursor-not-allowed');
           }
-          setSignupStatus('Creating your learner account...', 'info');
+          setSignupStatus(`Creating your ${accountType} account...`, 'info');
 
-          const result = await createLearnerAccount(fullName, email, password);
+          const result = await createSelfServiceAccount(fullName, email, password, accountType);
 
           if (submitButton) {
             submitButton.disabled = false;
@@ -3986,12 +4559,14 @@
 
           if (result.confirmationRequired) {
             signupForm.reset();
+            updateSignupAccountCopy();
             setSignupStatus(result.message, 'success');
             return;
           }
 
           signupForm.reset();
-          setSignupStatus('Account created. Opening the learner portal...', 'success');
+          updateSignupAccountCopy();
+          setSignupStatus(`Account created. Opening the ${accountType === 'webinar' ? 'webinar video library' : 'learner screen'}...`, 'success');
           await activatePortalForProfile(result.profile);
         });
       }
@@ -4006,6 +4581,8 @@
           const loginScreen = document.getElementById('secureLogin');
           const portalShell = document.getElementById('portalShell');
           const mainPortalPage = document.getElementById('mainPortalPage');
+          const learnerWaitingPage = document.getElementById('learnerWaitingPage');
+          const webinarPortalPage = document.getElementById('webinarPortalPage');
           const managerPortal = document.getElementById('managerPortal');
           const moduleViewer = document.getElementById('moduleViewer');
           const moduleFrame = document.getElementById('moduleFrame');
@@ -4022,7 +4599,9 @@
           if (moduleFrame) moduleFrame.src = 'about:blank';
           setPanelVisibility(moduleViewer, false);
           setPanelVisibility(managerPortal, false);
-          setPanelVisibility(mainPortalPage, true, 'block');
+          setPanelVisibility(mainPortalPage, false);
+          setPanelVisibility(learnerWaitingPage, false);
+          setPanelVisibility(webinarPortalPage, false);
           setPanelVisibility(portalShell, false);
           setPanelVisibility(loginScreen, true, 'flex');
           document.body.classList.add('rwce-auth-locked');
@@ -4068,7 +4647,8 @@
       users: [],
       modules: [],
       sessions: [],
-      completions: []
+      completions: [],
+      assignments: []
     };
     let rwceAdminPortalInitialized = false;
 
@@ -4093,6 +4673,7 @@
     function getPortalModulesFromPage() {
       return Array.from(document.querySelectorAll('#moduleGrid .module-card')).map((card, index) => ({
         id: card.dataset.moduleId || card.dataset.id || card.dataset.repository || card.dataset.viewKey || `page-module-${index}`,
+        module_key: normalizeModuleKey(card.dataset.moduleKey || card.dataset.repository || card.querySelector('a.tracked-link')?.href || `page-module-${index}`),
         title: card.dataset.title || card.querySelector('h3')?.textContent?.trim() || 'Real World CE Module',
         specialty: card.dataset.area || card.dataset.tabs || 'Clinical Education',
         format: card.dataset.formatLabel || card.dataset.kind || 'Module',
@@ -4139,13 +4720,15 @@
         dashboard: 'adminViewDashboard',
         reports: 'adminViewReports',
         analytics: 'adminViewAnalytics',
-        users: 'adminViewUsers'
+        users: 'adminViewUsers',
+        access: 'adminViewAccess'
       }[normalized] || 'adminViewDashboard');
       if (target) target.classList.add('is-active');
       document.querySelectorAll('.admin-tab-button').forEach(button => {
         button.classList.toggle('is-active', button.dataset.adminTab === normalized);
       });
-      if (['dashboard', 'reports', 'analytics', 'users'].includes(normalized)) {
+      if (['dashboard', 'reports', 'analytics', 'users', 'access'].includes(normalized)) {
+        if (normalized === 'access') renderModuleAccessEditor();
         loadManagerPortalData(false);
       }
     }
@@ -4234,18 +4817,147 @@
           const actionLabel = isSelf ? 'Current account' : targetRole === 'admin' ? 'Protected admin' : 'Delete user';
           const loginCount = Number(user.login_count || 0);
           const lastLogin = user.last_login_at ? formatAdminDate(user.last_login_at) : 'Never';
-          return `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(targetRole)}</td><td>${safeText(loginCount.toLocaleString())}</td><td>${safeText(lastLogin)}</td><td>${safeText(user.session_count)}</td><td>${safeText(user.completion_count)}</td><td>${safeText(Number(user.credits || 0).toFixed(1))}</td><td><button type="button" class="rwce-delete-user-button" data-delete-user-id="${safeText(user.id || '')}" data-delete-user-name="${safeText(user.full_name || user.email || 'this user')}" data-delete-user-email="${safeText(user.email || '')}" ${canDelete ? '' : 'disabled'}><span class="material-symbols-outlined text-[16px]">delete</span>${safeText(actionLabel)}</button></td></tr>`;
-        }).join('') : '<tr><td colspan="9">No users found. Check manager/admin profile read policies.</td></tr>';
+          return `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(normalizeAccountType(user.account_type, user.role))}</td><td>${safeText(targetRole)}</td><td>${safeText(loginCount.toLocaleString())}</td><td>${safeText(lastLogin)}</td><td>${safeText(user.session_count)}</td><td>${safeText(user.completion_count)}</td><td>${safeText(Number(user.credits || 0).toFixed(1))}</td><td><button type="button" class="rwce-delete-user-button" data-delete-user-id="${safeText(user.id || '')}" data-delete-user-name="${safeText(user.full_name || user.email || 'this user')}" data-delete-user-email="${safeText(user.email || '')}" ${canDelete ? '' : 'disabled'}><span class="material-symbols-outlined text-[16px]">delete</span>${safeText(actionLabel)}</button></td></tr>`;
+        }).join('') : '<tr><td colspan="10">No users found. Check manager/admin profile read policies.</td></tr>';
       }
 
       const userMgmtRows = document.getElementById('userManagementRows');
       if (userMgmtRows) {
-        userMgmtRows.innerHTML = users.length ? users.map(user => `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(normalizePortalRole(user.role || 'learner'))}</td><td>${safeText(formatAdminDate(user.created_at))}</td></tr>`).join('') : '<tr><td colspan="4">No users loaded yet.</td></tr>';
+        userMgmtRows.innerHTML = users.length ? users.map(user => `<tr><td>${safeText(user.full_name || 'Unnamed user')}</td><td>${safeText(user.email || '—')}</td><td>${safeText(normalizeAccountType(user.account_type, user.role))}</td><td>${safeText(normalizePortalRole(user.role || 'learner'))}</td><td>${safeText(formatAdminDate(user.created_at))}</td></tr>`).join('') : '<tr><td colspan="5">No users loaded yet.</td></tr>';
       }
+
+      renderModuleAccessEditor();
 
       const analyticsRows = document.getElementById('moduleAnalyticsRows');
       if (analyticsRows) {
         analyticsRows.innerHTML = moduleSummary.length ? moduleSummary.map(module => `<tr><td>${safeText(module.title || 'Module')}</td><td>${safeText(module.specialty || module.area || '—')}</td><td>${safeText(module.format || module.kind || 'Module')}</td><td>${safeText(module.status || 'Live')}</td><td>${safeText(module.session_count || 0)}</td><td>${safeText(module.completion_count || 0)}</td></tr>`).join('') : '<tr><td colspan="6">No modules found.</td></tr>';
+      }
+    }
+
+    function showModuleAccessStatus(message = '', type = '') {
+      const node = document.getElementById('moduleAccessStatus');
+      if (!node) return;
+      node.textContent = message;
+      node.classList.remove('hidden', 'error', 'success');
+      if (!message) {
+        node.classList.add('hidden');
+        return;
+      }
+      if (type) node.classList.add(type);
+    }
+
+    function getSelectedModuleAccessUserId() {
+      return document.getElementById('moduleAccessUserSelect')?.value || '';
+    }
+
+    function getModuleAccessCatalog() {
+      const pageModules = getPortalModulesFromPage();
+      const databaseModules = rwceAdminPortalData.modules || [];
+      const merged = new Map();
+      [...pageModules, ...databaseModules].forEach((module, index) => {
+        const key = normalizeModuleKey(module.module_key || module.repository || module.module_url || module.id || `module-${index}`);
+        if (!key) return;
+        const existing = merged.get(key) || {};
+        merged.set(key, {
+          ...existing,
+          ...module,
+          module_key: key,
+          title: module.title || existing.title || 'Real World CE Module',
+          specialty: module.specialty || module.area || existing.specialty || 'Clinical Education',
+          format: module.format || module.kind || existing.format || 'Module'
+        });
+      });
+      return Array.from(merged.values()).sort((a, b) => String(a.title).localeCompare(String(b.title)));
+    }
+
+    function renderModuleAccessEditor() {
+      const select = document.getElementById('moduleAccessUserSelect');
+      const checklist = document.getElementById('moduleAccessChecklist');
+      const summary = document.getElementById('moduleAccessUserSummary');
+      if (!select || !checklist || !summary) return;
+
+      const previousValue = select.value;
+      const learners = (rwceAdminPortalData.users || [])
+        .filter(user => normalizePortalRole(user.role) === 'learner' && normalizeAccountType(user.account_type, user.role) === 'learner')
+        .sort((a, b) => String(a.full_name || a.email).localeCompare(String(b.full_name || b.email)));
+      select.innerHTML = '<option value="">Select a learner</option>' + learners.map(user =>
+        `<option value="${safeText(user.id || '')}">${safeText(user.full_name || user.email || 'Learner')} — ${safeText(user.email || '')}</option>`
+      ).join('');
+      if (learners.some(user => user.id === previousValue)) select.value = previousValue;
+
+      const userId = select.value;
+      const user = learners.find(item => item.id === userId);
+      if (!user) {
+        checklist.innerHTML = '<div class="text-sm font-semibold text-slate-500">Choose a learner first.</div>';
+        summary.textContent = 'Select a learner to review their module access.';
+        return;
+      }
+
+      const assigned = new Set((rwceAdminPortalData.assignments || [])
+        .filter(row => row.user_id === userId)
+        .map(row => normalizeModuleKey(row.module_key)));
+      const modules = getModuleAccessCatalog();
+      const sourceLabel = String(user.registration_source || '').toLowerCase() === 'self_signup' ? 'Self-registered' : 'Administrator-created';
+      summary.textContent = `${sourceLabel} learner • ${assigned.size} of ${modules.length} modules assigned`;
+      checklist.innerHTML = modules.length ? modules.map(module => {
+        const key = normalizeModuleKey(module.module_key);
+        return `<label class="module-access-option"><input type="checkbox" data-module-access-key="${safeText(key)}" ${assigned.has(key) ? 'checked' : ''}/><span class="module-access-option-copy"><span class="module-access-option-title">${safeText(module.title)}</span><span class="module-access-option-meta">${safeText(module.specialty || 'Clinical Education')} • ${safeText(module.format || 'Module')}</span></span></label>`;
+      }).join('') : '<div class="text-sm font-semibold text-slate-500">No modules were found on this portal.</div>';
+      showModuleAccessStatus('');
+    }
+
+    async function saveModuleAccessForSelectedUser() {
+      const role = normalizePortalRole(rwceAuthenticatedProfile?.role || 'locked');
+      const userId = getSelectedModuleAccessUserId();
+      if (!['admin', 'manager'].includes(role)) {
+        showModuleAccessStatus('Only managers and administrators can change module access.', 'error');
+        return;
+      }
+      if (!userId) {
+        showModuleAccessStatus('Choose a learner first.', 'error');
+        return;
+      }
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        showModuleAccessStatus('Supabase is not connected. Module access was not saved.', 'error');
+        return;
+      }
+
+      const selectedKeys = Array.from(document.querySelectorAll('[data-module-access-key]:checked'))
+        .map(input => normalizeModuleKey(input.dataset.moduleAccessKey))
+        .filter(Boolean);
+      const saveButton = document.getElementById('saveModuleAccessBtn');
+      if (saveButton) saveButton.disabled = true;
+      showModuleAccessStatus('Saving module access...', '');
+
+      try {
+        const { error: deleteError } = await rwceSupabase.from('user_module_assignments').delete().eq('user_id', userId);
+        if (deleteError) throw deleteError;
+
+        if (selectedKeys.length) {
+          const rows = selectedKeys.map(moduleKey => ({
+            user_id: userId,
+            module_key: moduleKey,
+            assigned_by: rwceAuthenticatedProfile?.id || null
+          }));
+          const { error: insertError } = await rwceSupabase.from('user_module_assignments').insert(rows);
+          if (insertError) throw insertError;
+        }
+
+        const { error: profileError } = await rwceSupabase.from('profiles').update({ module_access_mode: 'assigned', updated_at: new Date().toISOString() }).eq('id', userId);
+        if (profileError) throw profileError;
+
+        rwceAdminPortalData.assignments = [
+          ...(rwceAdminPortalData.assignments || []).filter(row => row.user_id !== userId),
+          ...selectedKeys.map(moduleKey => ({ user_id: userId, module_key: moduleKey, assigned_by: rwceAuthenticatedProfile?.id || null }))
+        ];
+        const user = (rwceAdminPortalData.users || []).find(item => item.id === userId);
+        if (user) user.module_access_mode = 'assigned';
+        renderModuleAccessEditor();
+        showModuleAccessStatus(`Saved ${selectedKeys.length} assigned module${selectedKeys.length === 1 ? '' : 's'}.`, 'success');
+      } catch (error) {
+        showModuleAccessStatus('Module access could not be saved: ' + (error?.message || error), 'error');
+      } finally {
+        if (saveButton) saveButton.disabled = false;
       }
     }
 
@@ -4264,11 +4976,12 @@
       }
       try {
         setAdminStatus('Loading manager portal data from Supabase...', '');
-        const [profilesResult, modulesResult, sessionsResult, completionsResult] = await Promise.allSettled([
-          rwceSupabase.from('profiles').select('id, organization_id, full_name, email, role, login_count, last_login_at, created_at, updated_at').order('created_at', { ascending: false }).limit(500),
+        const [profilesResult, modulesResult, sessionsResult, completionsResult, assignmentsResult] = await Promise.allSettled([
+          rwceSupabase.from('profiles').select('id, organization_id, full_name, email, role, account_type, module_access_mode, registration_source, login_count, last_login_at, created_at, updated_at').order('created_at', { ascending: false }).limit(500),
           rwceSupabase.from('modules').select('id, title, repository, module_url, specialty, credit_amount, status, format, description, sort_order, created_at, updated_at').order('sort_order', { ascending: true }).limit(500),
           rwceSupabase.from('module_sessions').select('id, user_id, module_id, started_at, ended_at, time_spent_seconds, completed, completion_percent, last_event, created_at, updated_at').order('updated_at', { ascending: false }).limit(500),
-          rwceSupabase.from('module_completions').select('id, user_id, module_id, session_id, completed_at, score, passed, credit_earned, certificate_id, created_at, updated_at').order('completed_at', { ascending: false }).limit(500)
+          rwceSupabase.from('module_completions').select('id, user_id, module_id, session_id, completed_at, score, passed, credit_earned, certificate_id, created_at, updated_at').order('completed_at', { ascending: false }).limit(500),
+          rwceSupabase.from('user_module_assignments').select('user_id, module_key, assigned_by, assigned_at').limit(5000)
         ]);
 
         const errors = [];
@@ -4284,6 +4997,7 @@
         assignResult(modulesResult, 'modules');
         assignResult(sessionsResult, 'sessions');
         assignResult(completionsResult, 'completions');
+        assignResult(assignmentsResult, 'assignments');
         rwceAdminPortalData.loaded = true;
         renderAdminPortal();
         if (errors.length) {
@@ -4423,6 +5137,14 @@
       if (reportRows) reportRows.addEventListener('click', handleDeleteUser);
       const addUserForm = document.getElementById('addUserForm');
       if (addUserForm) addUserForm.addEventListener('submit', handleAddUser);
+      const accessUserSelect = document.getElementById('moduleAccessUserSelect');
+      if (accessUserSelect) accessUserSelect.addEventListener('change', renderModuleAccessEditor);
+      const selectAllModulesBtn = document.getElementById('selectAllModulesBtn');
+      if (selectAllModulesBtn) selectAllModulesBtn.addEventListener('click', () => document.querySelectorAll('[data-module-access-key]').forEach(input => { input.checked = true; }));
+      const clearAllModulesBtn = document.getElementById('clearAllModulesBtn');
+      if (clearAllModulesBtn) clearAllModulesBtn.addEventListener('click', () => document.querySelectorAll('[data-module-access-key]').forEach(input => { input.checked = false; }));
+      const saveModuleAccessBtn = document.getElementById('saveModuleAccessBtn');
+      if (saveModuleAccessBtn) saveModuleAccessBtn.addEventListener('click', saveModuleAccessForSelectedUser);
     }
 
     function buildPreviewFallback(title, area) {
