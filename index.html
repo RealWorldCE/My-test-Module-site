@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Real World CE | Module Portal</title>
+<title>Real World CE | Test Webinar Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -2732,6 +2732,58 @@
       color: #475569;
     }
 
+    .webinar-test-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(251,191,36,.55);
+      background: rgba(255,251,235,.96);
+      color: #92400e;
+      padding: .38rem .65rem;
+      font-size: .68rem;
+      font-weight: 950;
+      letter-spacing: .08em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .webinar-objectives {
+      margin-top: 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(191,219,254,.72);
+      background: rgba(239,246,255,.72);
+      padding: .9rem 1rem;
+    }
+    .webinar-objectives ul {
+      margin: .55rem 0 0 1.05rem;
+      list-style: disc;
+      color: #475569;
+      font-size: .82rem;
+      font-weight: 650;
+      line-height: 1.55;
+    }
+    .webinar-complete-btn {
+      display: inline-flex;
+      min-height: 2.7rem;
+      width: 100%;
+      margin-top: 1rem;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      border-radius: .9rem;
+      border: 1px solid rgba(37,99,235,.24);
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: #fff;
+      padding: .7rem 1rem;
+      font-size: .86rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(37,99,235,.18);
+    }
+    .webinar-complete-btn.is-complete {
+      border-color: rgba(16,185,129,.35);
+      background: linear-gradient(135deg, #059669, #0f766e);
+    }
+
     @media (max-width: 820px) {
       .webinar-grid { grid-template-columns: minmax(0, 1fr); }
       .webinar-hero { border-radius: 1.4rem; }
@@ -3226,7 +3278,7 @@
       <div class="relative z-10 max-w-3xl">
         <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em]"><span class="material-symbols-outlined text-[17px]">live_tv</span>Webinar Video Library</div>
         <h1 class="mt-4 text-3xl sm:text-5xl font-black tracking-tight leading-tight">Real World CE Webinars</h1>
-        <p class="mt-4 max-w-2xl text-sm sm:text-base font-semibold leading-relaxed text-blue-100/85">Watch the webinar videos available to your webinar account. Learning modules and manager tools are not shown in this area.</p>
+        <p class="mt-4 max-w-2xl text-sm sm:text-base font-semibold leading-relaxed text-blue-100/85">Watch the webinar videos available to your webinar account. This test version includes a short Real World CE company webinar and keeps learning modules and manager tools hidden.</p>
       </div>
     </section>
 
@@ -3772,6 +3824,27 @@
     let rwceModuleAccessMode = 'all';
     let rwceWebinarCount = 0;
 
+
+    const RWCE_BUNDLED_TEST_WEBINARS = [{
+      id: 'rwce-company-overview-test-webinar',
+      title: 'Real World CE: Bringing the Real World Into Clinical Education',
+      description: 'A short company overview showing how Real World CE moves beyond passive, linear education with interactive patient-centered experiences, evidence-based science, analytics, and measurable outcomes.',
+      presenter: 'Real World CE',
+      event_date: '2026-06-24',
+      credit_hours: 0,
+      duration_label: '3 minutes 14 seconds',
+      video_url: 'Take_9_Company_Video.mp4',
+      poster_url: 'real-world-ce-test-webinar-poster.jpg',
+      status: 'published',
+      sort_order: 1,
+      test_webinar: true,
+      learning_objectives: [
+        'Describe how interactive clinical education differs from passive, linear continuing education.',
+        'Identify the patient-centered and evidence-based elements highlighted in the Real World CE approach.',
+        'Explain how analytics, adaptive pathways, and measurable outcomes support clinical learning.'
+      ]
+    }];
+
     function normalizeModuleKey(value) {
       let raw = String(value || '').trim();
       if (!raw) return '';
@@ -4214,7 +4287,7 @@
       if (!raw) return '';
       try {
         const parsed = new URL(raw, window.location.href);
-        if (!['http:', 'https:'].includes(parsed.protocol)) return '';
+        if (!['http:', 'https:', 'file:'].includes(parsed.protocol)) return '';
         return parsed.href;
       } catch (error) {
         return '';
@@ -4254,6 +4327,27 @@
       }
     }
 
+    function webinarCompletionStorageKey(id) {
+      const userKey = String(rwceAuthenticatedProfile?.id || rwceAuthenticatedProfile?.email || 'anonymous').toLowerCase();
+      return `rwce:webinar-complete:${userKey}:${String(id || 'webinar')}`;
+    }
+
+    function webinarIsComplete(id) {
+      try { return localStorage.getItem(webinarCompletionStorageKey(id)) === 'true'; }
+      catch (error) { return false; }
+    }
+
+    function toggleWebinarComplete(id, button) {
+      const next = !webinarIsComplete(id);
+      try { localStorage.setItem(webinarCompletionStorageKey(id), next ? 'true' : 'false'); }
+      catch (error) { /* localStorage may be unavailable in restricted browsers. */ }
+      if (!button) return;
+      button.classList.toggle('is-complete', next);
+      button.innerHTML = next
+        ? '<span class="material-symbols-outlined text-[18px]">verified</span>Webinar Complete'
+        : '<span class="material-symbols-outlined text-[18px]">task_alt</span>Mark Webinar Complete';
+    }
+
     function renderWebinars(webinars = []) {
       const grid = document.getElementById('webinarGrid');
       rwceWebinarCount = Array.isArray(webinars) ? webinars.length : 0;
@@ -4265,26 +4359,40 @@
       }
 
       grid.innerHTML = webinars.map(item => {
+        const rawId = String(item.id || item.title || 'webinar');
+        const id = safeText(rawId);
         const title = safeText(item.title || 'Real World CE Webinar');
         const description = safeText(item.description || '');
         const presenter = safeText(item.presenter || '');
         const dateLabel = safeText(formatWebinarDate(item.event_date));
+        const durationLabel = safeText(item.duration_label || '');
         const credit = Number(item.credit_hours || 0);
         const videoUrl = safeMediaUrl(item.video_url);
         const posterUrl = safeMediaUrl(item.poster_url);
         const embedUrl = webinarEmbedUrl(videoUrl);
+        const complete = webinarIsComplete(rawId);
         const media = embedUrl
           ? `<iframe src="${safeText(embedUrl)}" title="${title}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
           : videoUrl
-            ? `<video controls preload="metadata" ${posterUrl ? `poster="${safeText(posterUrl)}"` : ''}><source src="${safeText(videoUrl)}"/>Your browser does not support this webinar video.</video>`
+            ? `<video controls preload="metadata" data-webinar-video="${id}" ${posterUrl ? `poster="${safeText(posterUrl)}"` : ''}><source src="${safeText(videoUrl)}" type="video/mp4"/>Your browser does not support this webinar video.</video>`
             : '<div class="flex h-full items-center justify-center px-4 text-center text-sm font-bold text-blue-100"><span><span class="material-symbols-outlined block text-[38px]">videocam_off</span>Video URL unavailable</span></div>';
         const pills = [
           presenter ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">person</span>${presenter}</span>` : '',
           dateLabel ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">calendar_month</span>${dateLabel}</span>` : '',
-          credit > 0 ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">workspace_premium</span>${credit} credit hour${credit === 1 ? '' : 's'}</span>` : ''
+          durationLabel ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">schedule</span>${durationLabel}</span>` : '',
+          credit > 0 ? `<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">workspace_premium</span>${credit} credit hour${credit === 1 ? '' : 's'}</span>` : '<span class="webinar-meta-pill"><span class="material-symbols-outlined text-[15px]">info</span>No CE credit — test webinar</span>'
         ].filter(Boolean).join('');
-        return `<article class="webinar-card"><div class="webinar-media">${media}</div><div class="webinar-card-body"><div class="text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">Real World CE Webinar</div><h3 class="mt-2 text-xl font-black tracking-tight text-medicalBlue">${title}</h3>${description ? `<p class="mt-3 text-sm font-semibold leading-relaxed text-slate-500">${description}</p>` : ''}${pills ? `<div class="webinar-meta-row">${pills}</div>` : ''}</div></article>`;
+        const objectives = Array.isArray(item.learning_objectives) && item.learning_objectives.length
+          ? `<div class="webinar-objectives"><div class="text-[11px] font-black uppercase tracking-[0.14em] text-blue-700">Learning objectives</div><ul>${item.learning_objectives.map(objective => `<li>${safeText(objective)}</li>`).join('')}</ul></div>`
+          : '';
+        const testPill = item.test_webinar ? '<span class="webinar-test-pill"><span class="material-symbols-outlined text-[15px]">science</span>Test Webinar</span>' : '';
+        const button = `<button class="webinar-complete-btn${complete ? ' is-complete' : ''}" type="button" data-webinar-complete="${id}">${complete ? '<span class="material-symbols-outlined text-[18px]">verified</span>Webinar Complete' : '<span class="material-symbols-outlined text-[18px]">task_alt</span>Mark Webinar Complete'}</button>`;
+        return `<article class="webinar-card"><div class="webinar-media">${media}</div><div class="webinar-card-body"><div class="flex flex-wrap items-center justify-between gap-2"><div class="text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">Real World CE Webinar</div>${testPill}</div><h3 class="mt-2 text-xl font-black tracking-tight text-medicalBlue">${title}</h3>${description ? `<p class="mt-3 text-sm font-semibold leading-relaxed text-slate-500">${description}</p>` : ''}${pills ? `<div class="webinar-meta-row">${pills}</div>` : ''}${objectives}${button}</div></article>`;
       }).join('');
+
+      grid.querySelectorAll('[data-webinar-complete]').forEach(button => {
+        button.addEventListener('click', () => toggleWebinarComplete(button.dataset.webinarComplete, button));
+      });
     }
 
     function setWebinarStatus(message = '', type = '') {
@@ -4300,27 +4408,35 @@
     async function loadWebinarLibrary(force = false) {
       const grid = document.getElementById('webinarGrid');
       if (!grid) return { ok: false, count: 0 };
-      if (!rwceSupabaseReady || !rwceSupabase) {
-        renderWebinars([]);
-        setWebinarStatus('The webinar library is not connected to Supabase.', 'error');
-        return { ok: false, count: 0 };
-      }
       if (force) grid.innerHTML = '<div class="webinar-empty-state"><span class="material-symbols-outlined text-[38px] text-blue-600 animate-pulse">video_library</span><div class="mt-3 text-lg font-black text-medicalBlue">Refreshing webinar videos…</div></div>';
+
+      if (!rwceSupabaseReady || !rwceSupabase) {
+        renderWebinars(RWCE_BUNDLED_TEST_WEBINARS);
+        setWebinarStatus('Showing the bundled test webinar. Connect Supabase to publish additional webinar videos.', 'info');
+        return { ok: true, count: RWCE_BUNDLED_TEST_WEBINARS.length, testMode: true };
+      }
+
       const { data, error } = await rwceSupabase
         .from('webinars')
         .select('id, title, description, presenter, event_date, credit_hours, video_url, poster_url, status, sort_order, created_at')
         .eq('status', 'published')
         .order('sort_order', { ascending: true })
         .order('event_date', { ascending: false, nullsFirst: false });
+
       if (error) {
         console.warn('Webinars could not be loaded:', error.message);
-        renderWebinars([]);
-        setWebinarStatus('Webinar videos could not be loaded. Run the included Supabase SQL and check the webinars table.', 'error');
-        return { ok: false, count: 0, error: error.message };
+        renderWebinars(RWCE_BUNDLED_TEST_WEBINARS);
+        setWebinarStatus('Showing the bundled test webinar. The Supabase webinar table could not be read.', 'info');
+        return { ok: true, count: RWCE_BUNDLED_TEST_WEBINARS.length, testMode: true, error: error.message };
       }
-      renderWebinars(data || []);
-      setWebinarStatus(data?.length ? `${data.length} webinar video${data.length === 1 ? '' : 's'} available.` : '', 'info');
-      return { ok: true, count: data?.length || 0 };
+
+      const databaseWebinars = Array.isArray(data) ? data : [];
+      const bundledTitle = String(RWCE_BUNDLED_TEST_WEBINARS[0]?.title || '').toLowerCase();
+      const hasDatabaseCopy = databaseWebinars.some(item => String(item?.title || '').toLowerCase() === bundledTitle);
+      const webinars = hasDatabaseCopy ? databaseWebinars : [...RWCE_BUNDLED_TEST_WEBINARS, ...databaseWebinars];
+      renderWebinars(webinars);
+      setWebinarStatus(`${webinars.length} webinar video${webinars.length === 1 ? '' : 's'} available.`, 'info');
+      return { ok: true, count: webinars.length };
     }
 
     function showAccountDestination(accountType, assignmentCount = 0) {
