@@ -4410,7 +4410,7 @@
           : '';
         const testPill = item.test_webinar ? '<span class="webinar-test-pill"><span class="material-symbols-outlined text-[15px]">science</span>Test Webinar</span>' : '';
         const button = moduleUrl
-          ? `<button class="webinar-launch-btn" type="button" data-webinar-launch="${safeText(moduleUrl)}" data-webinar-title="${title}"><span class="material-symbols-outlined text-[19px]">school</span>Launch Interactive Webinar</button>`
+          ? `<button class="webinar-launch-btn" type="button" data-webinar-launch="${safeText(moduleUrl)}" data-webinar-title="${title}"><span class="material-symbols-outlined text-[19px]">school</span>Start Registration &amp; Interactive Webinar</button>`
           : `<button class="webinar-complete-btn${complete ? ' is-complete' : ''}" type="button" data-webinar-complete="${id}">${complete ? '<span class="material-symbols-outlined text-[18px]">verified</span>Webinar Complete' : '<span class="material-symbols-outlined text-[18px]">task_alt</span>Mark Webinar Complete'}</button>`;
         return `<article class="webinar-card"><div class="webinar-media">${media}</div><div class="webinar-card-body"><div class="flex flex-wrap items-center justify-between gap-2"><div class="text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">Real World CE Webinar</div>${testPill}</div><h3 class="mt-2 text-xl font-black tracking-tight text-medicalBlue">${title}</h3>${description ? `<p class="mt-3 text-sm font-semibold leading-relaxed text-slate-500">${description}</p>` : ''}${pills ? `<div class="webinar-meta-row">${pills}</div>` : ''}${objectives}${button}</div></article>`;
       }).join('');
@@ -4457,7 +4457,7 @@
 
       const { data, error } = await rwceSupabase
         .from('webinars')
-        .select('id, title, description, presenter, event_date, credit_hours, video_url, poster_url, status, sort_order, created_at')
+        .select('id, title, description, presenter, event_date, credit_hours, video_url, module_url, poster_url, status, sort_order, created_at')
         .eq('status', 'published')
         .order('sort_order', { ascending: true })
         .order('event_date', { ascending: false, nullsFirst: false });
@@ -4469,10 +4469,29 @@
         return { ok: true, count: RWCE_BUNDLED_TEST_WEBINARS.length, testMode: true, error: error.message };
       }
 
-      const databaseWebinars = Array.isArray(data) ? data : [];
-      const bundledTitle = String(RWCE_BUNDLED_TEST_WEBINARS[0]?.title || '').toLowerCase();
-      const hasDatabaseCopy = databaseWebinars.some(item => String(item?.title || '').toLowerCase() === bundledTitle);
-      const webinars = hasDatabaseCopy ? databaseWebinars : [...RWCE_BUNDLED_TEST_WEBINARS, ...databaseWebinars];
+      const rawDatabaseWebinars = Array.isArray(data) ? data : [];
+      const bundledByTitle = new Map(
+        RWCE_BUNDLED_TEST_WEBINARS.map(item => [String(item?.title || '').trim().toLowerCase(), item])
+      );
+      const databaseWebinars = rawDatabaseWebinars.map(item => {
+        const bundled = bundledByTitle.get(String(item?.title || '').trim().toLowerCase());
+        return bundled
+          ? {
+              ...bundled,
+              ...item,
+              module_url: item.module_url || bundled.module_url,
+              poster_url: item.poster_url || bundled.poster_url,
+              video_url: item.video_url || bundled.video_url,
+              learning_objectives: Array.isArray(item.learning_objectives) && item.learning_objectives.length
+                ? item.learning_objectives
+                : bundled.learning_objectives,
+              test_webinar: item.test_webinar ?? bundled.test_webinar
+            }
+          : item;
+      });
+      const databaseTitles = new Set(databaseWebinars.map(item => String(item?.title || '').trim().toLowerCase()));
+      const missingBundled = RWCE_BUNDLED_TEST_WEBINARS.filter(item => !databaseTitles.has(String(item?.title || '').trim().toLowerCase()));
+      const webinars = [...missingBundled, ...databaseWebinars];
       renderWebinars(webinars);
       setWebinarStatus(`${webinars.length} webinar video${webinars.length === 1 ? '' : 's'} available.`, 'info');
       return { ok: true, count: webinars.length };
