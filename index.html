@@ -3790,6 +3790,61 @@ body.rw110-theme::before {
 }
 </style>
 
+
+<style id="rwce-live-event-manager-report-styles">
+.live-event-report-table th,
+.live-event-report-table td{
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.live-event-user-cell strong{
+  display:block;
+  color:#0f2746;
+  font-weight:950;
+}
+.live-event-user-cell span{
+  display:block;
+  margin-top:.18rem;
+  color:#64748b;
+  font-size:.68rem;
+  font-weight:750;
+}
+.live-event-account-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.36rem .58rem;
+  border-radius:999px;
+  border:1px solid #bfdbfe;
+  background:#eff6ff;
+  color:#1d4ed8;
+  font-size:.68rem;
+  font-weight:900;
+}
+.live-event-question-count{
+  display:inline-flex;
+  align-items:center;
+  gap:.3rem;
+  color:#166534;
+  font-weight:900;
+}
+.live-event-question-count .material-symbols-outlined{font-size:16px}
+.cme-detail-section-title{
+  margin:1rem 0 .65rem;
+  color:#1d4ed8;
+  font-size:.72rem;
+  font-weight:950;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.cme-detail-response.question-complete{
+  border-left:4px solid #3b82f6;
+}
+@media(max-width:900px){
+  .live-event-report-table{min-width:1150px}
+}
+</style>
+
 </head>
 <body class="text-slate-800 min-h-screen rwce-auth-locked rw110-theme">
 <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#07111d] transition-opacity duration-700" id="splash">
@@ -4380,6 +4435,7 @@ body.rw110-theme::before {
 <div class="flex flex-wrap gap-2">
 <button class="admin-tab-button is-active" data-admin-tab="dashboard" type="button">Dashboard</button>
 <button class="admin-tab-button" data-admin-tab="reports" type="button">User Reports</button>
+<button class="admin-tab-button" data-admin-tab="liveevents" type="button"><span class="material-symbols-outlined text-[17px] align-middle">event_available</span> Live Event Reports</button>
 <button class="admin-tab-button" data-admin-tab="analytics" type="button">Module Analytics</button>
 <button class="admin-tab-button" data-admin-tab="users" type="button">Add Users</button>
 <button class="admin-tab-button" data-admin-tab="access" type="button">Module Access</button>
@@ -4429,42 +4485,71 @@ body.rw110-theme::before {
 </table>
 </div>
 
-<div class="cme-report-panel mt-6">
-  <div class="cme-report-head">
-    <div>
-      <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Live Event Reporting</div>
-      <h3 class="mt-1 text-xl sm:text-2xl font-black text-medicalBlue">LAI Injection Trainer CME/CE Evaluation Reports</h3>
-      <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-500">Review every submitted evaluation, search learners, filter by completion date, open full question responses, and export the report to CSV.</p>
-    </div>
-    <div class="cme-report-actions">
-      <button id="refreshCmeEvaluationReportsBtn" class="cme-report-button" type="button"><span class="material-symbols-outlined">refresh</span>Refresh</button>
-      <button id="exportCmeEvaluationReportsBtn" class="cme-report-button primary" type="button"><span class="material-symbols-outlined">download</span>Export CSV</button>
-    </div>
-  </div>
-
-  <div class="cme-report-stats">
-    <div><span>Submissions</span><strong id="cmeReportSubmissionCount">0</strong></div>
-    <div><span>Unique Learners</span><strong id="cmeReportUniqueLearners">0</strong></div>
-    <div><span>Avg. Quality</span><strong id="cmeReportAvgQuality">—</strong></div>
-    <div><span>Bias-Free</span><strong id="cmeReportBiasFree">—</strong></div>
-  </div>
-
-  <div class="cme-report-filters">
-    <label><span>Search</span><input id="cmeReportSearch" type="search" placeholder="Name, email, NABP ePID…"></label>
-    <label><span>From</span><input id="cmeReportStartDate" type="date"></label>
-    <label><span>To</span><input id="cmeReportEndDate" type="date"></label>
-    <button id="clearCmeReportFiltersBtn" class="cme-report-button" type="button">Clear Filters</button>
-  </div>
-
-  <div id="cmeReportStatus" class="admin-status-message hidden mt-4"></div>
-
-  <div class="admin-table-wrap mt-4">
-    <table class="admin-table">
-      <thead><tr><th>Completed</th><th>Learner</th><th>Email</th><th>Quality</th><th>Minutes</th><th>Bias Free</th><th>Knowledge</th><th>NABP ePID</th><th>Responses</th></tr></thead>
-      <tbody id="cmeEvaluationReportRows"><tr><td colspan="9">No CME/CE evaluation data loaded yet.</td></tr></tbody>
-    </table>
-  </div>
+<div class="mt-6 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold leading-relaxed text-blue-900">
+  Live Event evaluation responses are available in the dedicated <strong>Live Event Reports</strong> tab.
 </div>
+</section>
+
+<section class="admin-view-panel" id="adminViewLiveEvents">
+  <div class="cme-report-panel">
+    <div class="cme-report-head">
+      <div>
+        <div class="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Manager Portal • Live Event Reporting</div>
+        <h3 class="mt-1 text-xl sm:text-2xl font-black text-medicalBlue">Live LAI Injection Trainer Reports</h3>
+        <p class="mt-2 max-w-3xl text-sm font-semibold leading-relaxed text-slate-500">
+          View the registered user's account information together with every submitted Live Event CME/CE evaluation response.
+          Open an individual report to review all completed questions, or export the current report to CSV.
+        </p>
+      </div>
+      <div class="cme-report-actions">
+        <button id="refreshCmeEvaluationReportsBtn" class="cme-report-button" type="button"><span class="material-symbols-outlined">refresh</span>Refresh</button>
+        <button id="printCmeEvaluationReportsBtn" class="cme-report-button" type="button"><span class="material-symbols-outlined">print</span>Print Report</button>
+        <button id="exportCmeEvaluationReportsBtn" class="cme-report-button primary" type="button"><span class="material-symbols-outlined">download</span>Export CSV</button>
+      </div>
+    </div>
+
+    <div class="cme-report-stats">
+      <div><span>Completed Evaluations</span><strong id="cmeReportSubmissionCount">0</strong></div>
+      <div><span>Unique Users</span><strong id="cmeReportUniqueLearners">0</strong></div>
+      <div><span>Avg. Quality</span><strong id="cmeReportAvgQuality">—</strong></div>
+      <div><span>Bias-Free</span><strong id="cmeReportBiasFree">—</strong></div>
+    </div>
+
+    <div class="cme-report-filters">
+      <label><span>Search User / Response</span><input id="cmeReportSearch" type="search" placeholder="Name, email, role, NABP ePID…"></label>
+      <label><span>Completed From</span><input id="cmeReportStartDate" type="date"></label>
+      <label><span>Completed To</span><input id="cmeReportEndDate" type="date"></label>
+      <button id="clearCmeReportFiltersBtn" class="cme-report-button" type="button">Clear Filters</button>
+    </div>
+
+    <div id="cmeReportStatus" class="admin-status-message hidden mt-4"></div>
+
+    <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table class="admin-table live-event-report-table">
+        <thead>
+          <tr>
+            <th>Completed</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Account</th>
+            <th>Role</th>
+            <th>Logins</th>
+            <th>Last Login</th>
+            <th>Questions</th>
+            <th>Quality</th>
+            <th>Minutes</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody id="cmeEvaluationReportRows"><tr><td colspan="11">No completed Live Event evaluations loaded yet.</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-relaxed text-slate-600">
+      Each individual report includes the user's profile information, completion date, pharmacist information when provided,
+      and the complete answers to Questions 1–22.
+    </div>
+  </div>
 </section>
 <section class="admin-view-panel" id="adminViewAnalytics">
 <div class="admin-table-wrap">
@@ -6225,6 +6310,7 @@ body.rw110-theme::before {
       const target = document.getElementById({
         dashboard: 'adminViewDashboard',
         reports: 'adminViewReports',
+        liveevents: 'adminViewLiveEvents',
         analytics: 'adminViewAnalytics',
         users: 'adminViewUsers',
         access: 'adminViewAccess',
@@ -6239,7 +6325,8 @@ body.rw110-theme::before {
         showAdminTab('dashboard');
         return;
       }
-      if (['dashboard', 'reports', 'analytics', 'users', 'access', 'upload'].includes(normalized)) {
+      if (['dashboard', 'reports', 'liveevents', 'analytics', 'users', 'access', 'upload'].includes(normalized)) {
+        if (normalized === 'liveevents' && typeof renderCMEEvaluationReports === 'function') renderCMEEvaluationReports();
         if (normalized === 'access') renderModuleAccessEditor();
         if (normalized === 'upload') {
           renderUploadedModulesList();
@@ -7872,6 +7959,25 @@ body.rw110-theme::before {
     saveLiveEventEvaluation(data.payload || {}, event.source, event.origin && event.origin !== 'null' ? event.origin : '*');
   });
 
+  function profileForEvaluation(item) {
+    const users = rwceAdminPortalData.users || [];
+    const itemUserId = String(item?.user_id || '');
+    const itemEmail = String(item?.learner_email || '').trim().toLowerCase();
+    return users.find(user => itemUserId && String(user.id || user.user_id || '') === itemUserId)
+      || users.find(user => itemEmail && String(user.email || '').trim().toLowerCase() === itemEmail)
+      || null;
+  }
+
+  function responseIsCompleted(value) {
+    if (Array.isArray(value)) return value.length > 0;
+    return value !== undefined && value !== null && String(value).trim() !== '';
+  }
+
+  function completedQuestionCount(item) {
+    const responses = item?.responses || {};
+    return Array.from({length:22}, (_,i)=>`q${i+1}`).filter(key => responseIsCompleted(responses[key])).length;
+  }
+
   function filteredCMEEvaluations() {
     const all = [...(rwceAdminPortalData.evaluations || [])];
     const search = String(document.getElementById('cmeReportSearch')?.value || '').trim().toLowerCase();
@@ -7883,9 +7989,15 @@ body.rw110-theme::before {
       if (start && completed < new Date(`${start}T00:00:00`)) return false;
       if (end && completed > new Date(`${end}T23:59:59.999`)) return false;
       if (!search) return true;
+
+      const profile = profileForEvaluation(item) || {};
+      const responseText = Object.values(item.responses || {}).flat().join(' ');
       const haystack = [
+        profile.full_name, profile.email, profile.role, profile.account_type,
+        profile.registration_source, profile.id,
         item.learner_first_name, item.learner_last_name, item.learner_email,
-        item.nabp_epid, item.activity_title, item.current_knowledge
+        item.nabp_epid, item.activity_title, item.current_knowledge,
+        responseText
       ].join(' ').toLowerCase();
       return haystack.includes(search);
     }).sort((a,b) => new Date(b.completed_at || b.created_at || 0) - new Date(a.completed_at || a.created_at || 0));
@@ -7908,20 +8020,28 @@ body.rw110-theme::before {
     setText('cmeReportBiasFree', biasAnswered.length ? `${Math.round((biasFree / biasAnswered.length) * 100)}%` : '—');
 
     rows.innerHTML = data.length ? data.map(item => {
-      const name = [item.learner_first_name, item.learner_last_name].filter(Boolean).join(' ') || 'Unnamed learner';
-      const bias = item.commercial_bias_free === true ? 'Yes' : item.commercial_bias_free === false ? 'No' : '—';
+      const profile = profileForEvaluation(item) || {};
+      const formName = [item.learner_first_name, item.learner_last_name].filter(Boolean).join(' ');
+      const name = profile.full_name || formName || 'Unnamed user';
+      const email = profile.email || item.learner_email || '—';
+      const accountType = normalizeAccountType(profile.account_type || item.account_type || 'live_event', profile.role || 'learner');
+      const accountLabel = accountType === 'live_event' ? 'Live Event' : accountType === 'webinar' ? 'Webinar' : 'Learner';
+      const role = normalizePortalRole(profile.role || 'learner');
+      const questions = completedQuestionCount(item);
       return `<tr>
         <td>${safeText(formatAdminDate(item.completed_at || item.created_at))}</td>
-        <td>${safeText(name)}</td>
-        <td>${safeText(item.learner_email || '—')}</td>
+        <td class="live-event-user-cell"><strong>${safeText(name)}</strong><span>${safeText(profile.registration_source || 'Registered user')}</span></td>
+        <td>${safeText(email)}</td>
+        <td><span class="live-event-account-pill">${safeText(accountLabel)}</span></td>
+        <td>${safeText(role.charAt(0).toUpperCase() + role.slice(1))}</td>
+        <td>${safeText(profile.login_count ?? '—')}</td>
+        <td>${safeText(formatAdminDate(profile.last_login_at))}</td>
+        <td><span class="live-event-question-count"><span class="material-symbols-outlined">task_alt</span>${safeText(`${questions}/22`)}</span></td>
         <td>${safeText(item.overall_quality ?? '—')}</td>
         <td>${safeText(item.participation_minutes ?? '—')}</td>
-        <td>${safeText(bias)}</td>
-        <td>${safeText(item.current_knowledge || '—')}</td>
-        <td>${safeText(item.nabp_epid || '—')}</td>
-        <td><button type="button" class="cme-view-response-btn" data-cme-evaluation-id="${safeText(item.id || item.submission_id || '')}"><span class="material-symbols-outlined text-[15px]">visibility</span>View</button></td>
+        <td><button type="button" class="cme-view-response-btn" data-cme-evaluation-id="${safeText(item.id || item.submission_id || '')}"><span class="material-symbols-outlined text-[15px]">description</span>View Full Report</button></td>
       </tr>`;
-    }).join('') : '<tr><td colspan="9">No CME/CE evaluations match the current filters.</td></tr>';
+    }).join('') : '<tr><td colspan="11">No completed Live Event evaluations match the current filters.</td></tr>';
 
     rows.querySelectorAll('[data-cme-evaluation-id]').forEach(button => {
       button.addEventListener('click', () => openCMEEvaluationDetail(button.dataset.cmeEvaluationId));
@@ -7936,18 +8056,38 @@ body.rw110-theme::before {
     const item = findCMEEvaluation(id);
     if (!item) return;
     const responses = item.responses || {};
-    const name = [item.learner_first_name, item.learner_last_name].filter(Boolean).join(' ') || 'Unnamed learner';
+    const profile = profileForEvaluation(item) || {};
+    const formName = [item.learner_first_name, item.learner_last_name].filter(Boolean).join(' ');
+    const name = profile.full_name || formName || 'Unnamed user';
+    const email = profile.email || item.learner_email || 'No email';
+    const accountType = normalizeAccountType(profile.account_type || item.account_type || 'live_event', profile.role || 'learner');
+    const accountLabel = accountType === 'live_event' ? 'Live Event' : accountType === 'webinar' ? 'Webinar' : 'Learner';
+    const role = normalizePortalRole(profile.role || 'learner');
+
     const modal = document.getElementById('cmeEvaluationDetailModal');
     const title = document.getElementById('cmeDetailTitle');
     const subtitle = document.getElementById('cmeDetailSubtitle');
     const body = document.getElementById('cmeEvaluationDetailBody');
     if (!modal || !body) return;
 
-    if (title) title.textContent = name;
-    if (subtitle) subtitle.textContent = `${item.learner_email || 'No email'} • ${formatAdminDate(item.completed_at || item.created_at)}`;
+    if (title) title.textContent = `${name} — Live Event Report`;
+    if (subtitle) subtitle.textContent = `${email} • Completed ${formatAdminDate(item.completed_at || item.created_at)}`;
 
-    const summary = [
+    const userSummary = [
+      ['Registered User', name],
+      ['Email', email],
+      ['Account Type', accountLabel],
+      ['Role', role.charAt(0).toUpperCase() + role.slice(1)],
+      ['Registration Source', profile.registration_source || '—'],
+      ['Login Count', profile.login_count ?? '—'],
+      ['Last Login', formatAdminDate(profile.last_login_at)],
+      ['User ID', profile.id || item.user_id || '—']
+    ];
+
+    const completionSummary = [
       ['Activity', item.activity_title || CME_ACTIVITY_TITLE],
+      ['Completed', formatAdminDate(item.completed_at || item.created_at)],
+      ['Questions With Responses', `${completedQuestionCount(item)} / 22`],
       ['Overall Quality', item.overall_quality ? `${item.overall_quality} / 5` : '—'],
       ['Participation', item.participation_minutes != null ? `${item.participation_minutes} minutes` : '—'],
       ['Commercial Bias Free', item.commercial_bias_free === true ? 'Yes' : item.commercial_bias_free === false ? 'No' : '—'],
@@ -7957,16 +8097,28 @@ body.rw110-theme::before {
       ['Submission ID', item.submission_id || '—']
     ];
 
-    const responseHtml = Object.keys(CME_QUESTION_LABELS)
-      .filter(key => !['learner_first_name','learner_last_name','learner_email'].includes(key))
-      .map(key => {
-        let value = responses[key];
-        if (Array.isArray(value)) value = value.join('; ');
-        if (value == null || String(value).trim() === '') value = '—';
-        return `<div class="cme-detail-response"><span>${safeText(CME_QUESTION_LABELS[key] || key)}</span><strong>${safeText(value)}</strong></div>`;
-      }).join('');
+    const responseHtml = Array.from({length:22}, (_,i)=>`q${i+1}`).map(key => {
+      let value = responses[key];
+      if (Array.isArray(value)) value = value.join('; ');
+      if (value == null || String(value).trim() === '') value = '—';
+      return `<div class="cme-detail-response question-complete"><span>${safeText(CME_QUESTION_LABELS[key] || key)}</span><strong>${safeText(value)}</strong></div>`;
+    }).join('');
 
-    body.innerHTML = `<div class="cme-detail-grid">${summary.map(([label,value]) => `<div class="cme-detail-summary"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`).join('')}</div>${responseHtml}`;
+    const simulation = item.simulation && typeof item.simulation === 'object' ? item.simulation : {};
+    const simulationRows = Object.keys(simulation).length
+      ? Object.entries(simulation).map(([key,value]) => `<div class="cme-detail-summary"><span>${safeText(key.replaceAll('_',' '))}</span><strong>${safeText(value)}</strong></div>`).join('')
+      : '<div class="cme-detail-summary"><span>Simulation</span><strong>No simulation summary recorded.</strong></div>';
+
+    body.innerHTML = `
+      <div class="cme-detail-section-title">User Information</div>
+      <div class="cme-detail-grid">${userSummary.map(([label,value]) => `<div class="cme-detail-summary"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`).join('')}</div>
+      <div class="cme-detail-section-title">Live Event Completion</div>
+      <div class="cme-detail-grid">${completionSummary.map(([label,value]) => `<div class="cme-detail-summary"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`).join('')}</div>
+      <div class="cme-detail-section-title">Completed CME/CE Questions</div>
+      ${responseHtml}
+      <div class="cme-detail-section-title">Injection Trainer Summary</div>
+      <div class="cme-detail-grid">${simulationRows}</div>
+    `;
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -7989,24 +8141,36 @@ body.rw110-theme::before {
   window.exportCMEEvaluationReports = function exportCMEEvaluationReports() {
     const data = filteredCMEEvaluations();
     if (!data.length) {
-      cmeStatus('There are no evaluation rows to export for the current filters.', 'error');
+      cmeStatus('There are no Live Event evaluation rows to export for the current filters.', 'error');
       return;
     }
     const responseKeys = Array.from({length:22}, (_,i)=>`q${i+1}`);
     const headers = [
-      'Completed At','First Name','Last Name','Email','Activity','Overall Quality','Participation Minutes',
+      'Completed At','User ID','Registered Full Name','First Name','Last Name','Email',
+      'Account Type','Role','Registration Source','Login Count','Last Login',
+      'Activity','Questions With Responses','Overall Quality','Participation Minutes',
       'Commercial Bias Free','NABP ePID','Pharmacist DOB MM/DD','Current Knowledge','Submission ID',
       ...responseKeys.map(key => CME_QUESTION_LABELS[key] || key)
     ];
     const lines = [headers.map(csvCell).join(',')];
     data.forEach(item => {
+      const profile = profileForEvaluation(item) || {};
       const r = item.responses || {};
+      const registeredName = profile.full_name || [item.learner_first_name,item.learner_last_name].filter(Boolean).join(' ');
       const values = [
         item.completed_at || item.created_at || '',
+        profile.id || item.user_id || '',
+        registeredName,
         item.learner_first_name || '',
         item.learner_last_name || '',
-        item.learner_email || '',
+        profile.email || item.learner_email || '',
+        normalizeAccountType(profile.account_type || item.account_type || 'live_event', profile.role || 'learner'),
+        normalizePortalRole(profile.role || 'learner'),
+        profile.registration_source || '',
+        profile.login_count ?? '',
+        profile.last_login_at || '',
         item.activity_title || '',
+        completedQuestionCount(item),
         item.overall_quality ?? '',
         item.participation_minutes ?? '',
         item.commercial_bias_free === true ? 'Yes' : item.commercial_bias_free === false ? 'No' : '',
@@ -8022,12 +8186,53 @@ body.rw110-theme::before {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `RWCE_LAI_CME_Evaluation_Report_${new Date().toISOString().slice(0,10)}.csv`;
+    a.download = `RWCE_Live_Event_User_Question_Report_${new Date().toISOString().slice(0,10)}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-    cmeStatus(`Exported ${data.length} evaluation record${data.length === 1 ? '' : 's'}.`, 'success');
+    cmeStatus(`Exported ${data.length} completed Live Event report${data.length === 1 ? '' : 's'}.`, 'success');
+  };
+
+  window.printCMEEvaluationReports = function printCMEEvaluationReports() {
+    const data = filteredCMEEvaluations();
+    if (!data.length) {
+      cmeStatus('There are no Live Event evaluation rows to print for the current filters.', 'error');
+      return;
+    }
+    const win = window.open('', '_blank', 'noopener,noreferrer');
+    if (!win) {
+      cmeStatus('The print window was blocked by the browser. Allow pop-ups and try again.', 'error');
+      return;
+    }
+
+    const reports = data.map(item => {
+      const profile = profileForEvaluation(item) || {};
+      const r = item.responses || {};
+      const name = profile.full_name || [item.learner_first_name,item.learner_last_name].filter(Boolean).join(' ') || 'Unnamed user';
+      const userInfo = `
+        <table class="summary">
+          <tr><th>User</th><td>${safeText(name)}</td><th>Email</th><td>${safeText(profile.email || item.learner_email || '—')}</td></tr>
+          <tr><th>Account</th><td>${safeText(normalizeAccountType(profile.account_type || item.account_type || 'live_event', profile.role || 'learner'))}</td><th>Role</th><td>${safeText(normalizePortalRole(profile.role || 'learner'))}</td></tr>
+          <tr><th>Completed</th><td>${safeText(formatAdminDate(item.completed_at || item.created_at))}</td><th>Questions</th><td>${safeText(`${completedQuestionCount(item)} / 22`)}</td></tr>
+        </table>`;
+      const questions = Array.from({length:22}, (_,i)=>`q${i+1}`).map(key => {
+        let value = r[key];
+        if (Array.isArray(value)) value = value.join('; ');
+        if (value == null || String(value).trim() === '') value = '—';
+        return `<div class="q"><strong>${safeText(CME_QUESTION_LABELS[key] || key)}</strong><p>${safeText(value)}</p></div>`;
+      }).join('');
+      return `<section><h2>${safeText(name)}</h2>${userInfo}${questions}</section>`;
+    }).join('');
+
+    win.document.write(`<!doctype html><html><head><title>Real World CE Live Event Report</title><style>
+      body{font-family:Arial,sans-serif;color:#172033;margin:28px}h1{color:#0b2f67}h2{margin-top:28px;color:#176dcc}
+      .summary{width:100%;border-collapse:collapse;margin:12px 0 18px}.summary th,.summary td{border:1px solid #dbe4ee;padding:8px;text-align:left;font-size:12px}
+      .summary th{background:#eff6ff}.q{page-break-inside:avoid;border:1px solid #dbe4ee;border-radius:8px;padding:10px;margin:8px 0}.q strong{font-size:12px;color:#0b2f67}.q p{margin:6px 0 0;font-size:12px;line-height:1.45}
+      section{page-break-after:always}
+    </style></head><body><h1>Real World CE — Live Event User & CME/CE Question Report</h1>${reports}</body></html>`);
+    win.document.close();
+    setTimeout(() => win.print(), 250);
   };
 
   async function refreshCMEReports() {
@@ -8058,6 +8263,7 @@ body.rw110-theme::before {
     });
     document.getElementById('refreshCmeEvaluationReportsBtn')?.addEventListener('click', refreshCMEReports);
     document.getElementById('exportCmeEvaluationReportsBtn')?.addEventListener('click', exportCMEEvaluationReports);
+    document.getElementById('printCmeEvaluationReportsBtn')?.addEventListener('click', printCMEEvaluationReports);
     document.getElementById('closeCmeEvaluationDetailBtn')?.addEventListener('click', closeCMEEvaluationDetail);
     document.getElementById('cmeEvaluationDetailModal')?.addEventListener('click', event => { if (event.target?.id === 'cmeEvaluationDetailModal') closeCMEEvaluationDetail(); });
   });
