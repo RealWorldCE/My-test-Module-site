@@ -7459,6 +7459,8 @@ body.rw110-theme::before {
 .cme-report-filters input{width:100%;min-height:2.7rem;border:1px solid #d8e3ee;border-radius:.85rem;background:#fff;padding:.62rem .75rem;font-size:.86rem;font-weight:700;color:#0f2746;outline:none}
 .cme-report-filters input:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(59,130,246,.10)}
 .cme-detail-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(7,17,29,.72);backdrop-filter:blur(10px)}
+.cme-detail-modal[hidden],.cme-detail-modal:not(.active){display:none !important}
+body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-modal{display:none !important}
 .cme-detail-modal.active{display:flex}
 .cme-detail-card{width:min(900px,96vw);max-height:92vh;overflow:auto;border-radius:1.5rem;background:#f8fbfe;border:1px solid rgba(255,255,255,.72);box-shadow:0 32px 100px rgba(2,8,23,.38)}
 .cme-detail-head{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;gap:1rem;padding:1.1rem 1.2rem;background:rgba(255,255,255,.96);border-bottom:1px solid #e2e8f0;backdrop-filter:blur(12px)}
@@ -7842,7 +7844,7 @@ body.rw110-theme::before {
     document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
   }else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
 })();
-</script><div id="cmeEvaluationDetailModal" class="cme-detail-modal" aria-hidden="true">
+</script><div id="cmeEvaluationDetailModal" class="cme-detail-modal" aria-hidden="true" hidden data-min-role="manager">
   <div class="cme-detail-card" role="dialog" aria-modal="true" aria-labelledby="cmeDetailTitle">
     <div class="cme-detail-head">
       <div>
@@ -8061,6 +8063,8 @@ body.rw110-theme::before {
   }
 
   window.openCMEEvaluationDetail = function openCMEEvaluationDetail(id) {
+    const viewerRole = document.body.dataset.rwceRole;
+    if (viewerRole !== "admin" && viewerRole !== "manager") return;
     const item = findCMEEvaluation(id);
     if (!item) return;
     const responses = item.responses || {};
@@ -8127,6 +8131,7 @@ body.rw110-theme::before {
       <div class="cme-detail-section-title">Injection Trainer Summary</div>
       <div class="cme-detail-grid">${simulationRows}</div>
     `;
+    modal.hidden = false;
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -8136,6 +8141,7 @@ body.rw110-theme::before {
     const modal = document.getElementById('cmeEvaluationDetailModal');
     if (!modal) return;
     modal.classList.remove('active');
+    modal.hidden = true;
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
@@ -8300,20 +8306,21 @@ body.rw110-theme::before {
    if(!trustedModuleEvent(e))return;
    const m=e.data,p=m.payload||{},phase=m.phase;
    if(!['pre','post','knowledge_check','quiz'].includes(phase))return;
-   if(!client()){console.error('Assessment save unavailable: Supabase not configured');return}
+   const fail=message=>{console.error('LAI assessment: '+message);try{e.source?.postMessage({type:'rwce-assessment-storage',ok:false,phase,message},e.origin)}catch{}};
+   if(!client()){fail('LMS Supabase session is not configured');return}
    const {data:auth,error:authError}=await client().auth.getUser();
    const user=auth?.user;
-   if(authError||!user){console.error('Assessment save failed: learner not authenticated');return}
+   if(authError||!user){fail('Sign in to the LMS before submitting the assessment');return}
    const total=Number(p.question_count),correct=Number(p.correct),score=Number(p.score);
-   if(!Number.isInteger(total)||total<1||total>100||!Number.isInteger(correct)||correct<0||correct>total||!Number.isFinite(score)||score<0||score>100)return;
+   if(!Number.isInteger(total)||total<1||total>100||!Number.isInteger(correct)||correct<0||correct>total||!Number.isFinite(score)||score<0||score>100){fail('Invalid assessment score payload');return;}
    const responses=Array.isArray(p.answers)?p.answers.slice(0,100):[];
    const correctness=Array.isArray(p.question_correct)?p.question_correct.slice(0,100):[];
-   if(responses.length!==total||correctness.length!==total||!Array.isArray(p.question_details)||p.question_details.length!==total)return;
+   if(responses.length!==total||correctness.length!==total||!Array.isArray(p.question_details)||p.question_details.length!==total){fail('Assessment response detail incomplete');return;}
    // The user_id comes ONLY from Supabase auth, not the embedded trainer message.
    const rec={user_id:user.id,course_key:COURSE,assessment_type:phase,assessment_title:String(p.assessment||'LAI injection trainer').slice(0,180),correct_count:correct,question_count:total,score_percent:score,passed:typeof p.passed==='boolean'?p.passed:(phase==='post'?score>=80:null),answers:responses,question_correct:correctness,question_details:Array.isArray(p.question_details)?p.question_details.slice(0,total):[],client_submitted_at:p.submitted_at||new Date().toISOString()};
    const {error}=await client().from('assessment_attempts').insert(rec);
-   if(error){console.error('Could not store assessment:',error.message);try{e.source?.postMessage({type:'rwce-assessment-storage',ok:false,message:'Database save failed: '+error.message},e.origin)}catch{};return}
-   try{e.source?.postMessage({type:'rwce-assessment-storage',ok:true,phase},e.origin)}catch{}
+   if(error){fail('Database save failed: '+error.message);return}
+   try{e.source?.postMessage({type:'rwce-assessment-storage',ok:true,phase,message:'Saved to LMS database'},e.origin)}catch{}
  }
  window.addEventListener('message',e=>{if(e.data?.type==='rwce-lai-assessment')persist(e)});
  async function load(){
@@ -8324,7 +8331,7 @@ body.rw110-theme::before {
   if(!['admin','manager'].includes(String(myProfile?.role||'').toLowerCase())){status('Reports are restricted to admins and managers.',true);return}
   const [a,u]=await Promise.all([supa.from('assessment_attempts').select('*').order('created_at',{ascending:false}).limit(5000),supa.from('profiles').select('id,full_name,email').limit(1000)]);
   if(a.error){status('Cannot load assessments: '+a.error.message+'. Apply the assessment SQL migration and verify row-level security.',true);return}
-  records=a.data||[];profiles=u.data||[];status(`${records.length} assessment attempts loaded. Use filters or export results.`);render();
+  records=a.data||[];profiles=u.data||[];status(records.length ? `${records.length} assessment attempts loaded. Use filters or export results.` : 'No saved assessment records were returned by Supabase. Confirm that the updated trainer is opened inside this LMS, both migrations are applied, and a new test was submitted after deployment.');render();
  }
  function viewRows(){const q=($('assessmentSearch')?.value||'').trim().toLowerCase(),a=$('assessmentStart')?.value||'',b=$('assessmentEnd')?.value||'';
   return records.filter(r=>{const p=profiles.find(u=>u.id===r.user_id)||{};const hay=[p.full_name,p.email,r.assessment_type,r.assessment_title,r.course_key].join(' ').toLowerCase();const d=(r.created_at||'').slice(0,10);return (!q||hay.includes(q))&&(!a||d>=a)&&(!b||d<=b)})}
