@@ -8321,7 +8321,7 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
    }catch{return false}
  }
  async function persist(e){
-   if(!trustedModuleEvent(e))return;
+   if(!trustedModuleEvent(e)){console.warn('LAI assessment ignored: submission did not come from the currently embedded LMS module. Open the LAI trainer from within the LMS module viewer, not a separate tab.');return;}
    const m=e.data,p=m.payload||{},phase=m.phase;
    if(!['pre','post','knowledge_check','quiz'].includes(phase))return;
    const fail=message=>{console.error('LAI assessment: '+message);try{e.source?.postMessage({type:'rwce-assessment-storage',ok:false,phase,message},e.origin)}catch{}};
@@ -8336,9 +8336,15 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
    if(responses.length!==total||correctness.length!==total||!Array.isArray(p.question_details)||p.question_details.length!==total){fail('Assessment response detail incomplete');return;}
    // The user_id comes ONLY from Supabase auth, not the embedded trainer message.
    const rec={user_id:user.id,course_key:COURSE,assessment_type:phase,assessment_title:String(p.assessment||'LAI injection trainer').slice(0,180),correct_count:correct,question_count:total,score_percent:score,passed:typeof p.passed==='boolean'?p.passed:(phase==='post'?score>=80:null),answers:responses,question_correct:correctness,question_details:Array.isArray(p.question_details)?p.question_details.slice(0,total):[],client_submitted_at:p.submitted_at||new Date().toISOString()};
-   const {error}=await client().from('assessment_attempts').insert(rec);
-   if(error){fail('Database save failed: '+error.message);return}
-   try{e.source?.postMessage({type:'rwce-assessment-storage',ok:true,phase,message:'Saved to LMS database'},e.origin)}catch{}
+   const {data:inserted,error}=await client().from('assessment_attempts').insert(rec).select('id,assessment_type').single();
+   if(error){
+     let explanation=error.message||'Unknown database error';
+     if(error.code==='PGRST204'||/question_details|schema cache/i.test(explanation)) explanation+=' — Check whether the question_details JSONB column was added in Supabase.';
+     if(error.code==='42501'||/row.level.security|permission denied/i.test(explanation)) explanation+=' — Check the signed-in user session and the assessment_attempts INSERT policy.';
+     fail('Database save failed: '+explanation);return
+   }
+   if(!inserted?.id){fail('Database did not return a confirmed assessment record');return}
+   try{e.source?.postMessage({type:'rwce-assessment-storage',ok:true,phase,record_id:inserted.id,message:'Saved to LMS database'},e.origin)}catch{}
  }
  window.addEventListener('message',e=>{if(e.data?.type==='rwce-lai-assessment')persist(e)});
  async function load(){
@@ -8349,7 +8355,7 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
   if(!['admin','manager'].includes(String(myProfile?.role||'').toLowerCase())){status('Reports are restricted to admins and managers.',true);return}
   const [a,u]=await Promise.all([supa.from('assessment_attempts').select('*').order('created_at',{ascending:false}).limit(5000),supa.from('profiles').select('id,full_name,email').limit(1000)]);
   if(a.error){status('Cannot load assessments: '+a.error.message+'. Apply the assessment SQL migration and verify row-level security.',true);return}
-  records=a.data||[];profiles=u.data||[];status(records.length ? `${records.length} assessment attempts loaded. Use filters or export results.` : 'No saved assessment records were returned by Supabase. Confirm that the updated trainer is opened inside this LMS, both migrations are applied, and a new test was submitted after deployment.');render();
+  records=a.data||[];profiles=u.data||[];status(records.length ? `${records.length} assessment attempts loaded. Use filters or export results.` : 'No assessment records are stored yet. Open the trainer inside this LMS, submit a NEW pre-test, verify its green database-save confirmation, then refresh. Missing question_details column or RLS errors will appear in the trainer status.');render();
  }
  function viewRows(){const q=($('assessmentSearch')?.value||'').trim().toLowerCase(),a=$('assessmentStart')?.value||'',b=$('assessmentEnd')?.value||'';
   return records.filter(r=>{const p=profiles.find(u=>u.id===r.user_id)||{};const hay=[p.full_name,p.email,r.assessment_type,r.assessment_title,r.course_key].join(' ').toLowerCase();const d=(r.created_at||'').slice(0,10);return (!q||hay.includes(q))&&(!a||d>=a)&&(!b||d<=b)})}
