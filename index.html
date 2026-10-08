@@ -7844,7 +7844,8 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
     document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
   }else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
 })();
-</script><div id="cmeEvaluationDetailModal" class="cme-detail-modal" aria-hidden="true" hidden data-min-role="manager">
+</script><template id="cmeEvaluationDetailTemplate">
+<div id="cmeEvaluationDetailModal" class="cme-detail-modal" aria-hidden="true" hidden data-min-role="manager">
   <div class="cme-detail-card" role="dialog" aria-modal="true" aria-labelledby="cmeDetailTitle">
     <div class="cme-detail-head">
       <div>
@@ -7857,6 +7858,7 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
     <div id="cmeEvaluationDetailBody" class="cme-detail-body"></div>
   </div>
 </div>
+</template>
 <script id="rwce-live-event-cme-reports">
 (() => {
   const CME_ACTIVITY_ID = 'lai-injection-live-event';
@@ -8062,6 +8064,24 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
     return (rwceAdminPortalData.evaluations || []).find(item => String(item.id || item.submission_id || '') === String(id || ''));
   }
 
+  // Keep administrative learner data out of the document until an authorized
+  // administrator or manager intentionally opens a report.
+  function ensureCMEEvaluationDetailModal() {
+    const role = document.body.dataset.rwceRole;
+    if (role !== 'admin' && role !== 'manager') return null;
+    let modal = document.getElementById('cmeEvaluationDetailModal');
+    if (modal) return modal;
+    const template = document.getElementById('cmeEvaluationDetailTemplate');
+    if (!template) return null;
+    document.body.appendChild(template.content.cloneNode(true));
+    modal = document.getElementById('cmeEvaluationDetailModal');
+    modal?.querySelector('#closeCmeEvaluationDetailBtn')?.addEventListener('click', closeCMEEvaluationDetail);
+    modal?.addEventListener('click', event => {
+      if (event.target === modal) closeCMEEvaluationDetail();
+    });
+    return modal;
+  }
+
   window.openCMEEvaluationDetail = function openCMEEvaluationDetail(id) {
     const viewerRole = document.body.dataset.rwceRole;
     if (viewerRole !== "admin" && viewerRole !== "manager") return;
@@ -8076,7 +8096,7 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
     const accountLabel = accountType === 'live_event' ? 'Live Event' : accountType === 'webinar' ? 'Webinar' : 'Learner';
     const role = normalizePortalRole(profile.role || 'learner');
 
-    const modal = document.getElementById('cmeEvaluationDetailModal');
+    const modal = ensureCMEEvaluationDetailModal();
     const title = document.getElementById('cmeDetailTitle');
     const subtitle = document.getElementById('cmeDetailSubtitle');
     const body = document.getElementById('cmeEvaluationDetailBody');
@@ -8278,8 +8298,6 @@ body:not([data-rwce-role="admin"]):not([data-rwce-role="manager"]) .cme-detail-m
     document.getElementById('refreshCmeEvaluationReportsBtn')?.addEventListener('click', refreshCMEReports);
     document.getElementById('exportCmeEvaluationReportsBtn')?.addEventListener('click', exportCMEEvaluationReports);
     document.getElementById('printCmeEvaluationReportsBtn')?.addEventListener('click', printCMEEvaluationReports);
-    document.getElementById('closeCmeEvaluationDetailBtn')?.addEventListener('click', closeCMEEvaluationDetail);
-    document.getElementById('cmeEvaluationDetailModal')?.addEventListener('click', event => { if (event.target?.id === 'cmeEvaluationDetailModal') closeCMEEvaluationDetail(); });
   });
 })();
 </script>
